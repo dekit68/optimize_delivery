@@ -1,0 +1,9 @@
+# เปิดใช้งานการรีไรต์ URL
+RewriteEngine On
+
+# ตรวจสอบว่าคำขอเป็นไฟล์หรือไดเรกทอรีจริง ๆ หรือไม่
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ส่งคำขอทั้งหมดไปที่ index.php
+RewriteRule ^ index.php [L]
