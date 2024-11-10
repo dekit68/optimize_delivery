@@ -5,9 +5,7 @@ include 'module/function.php';
 // ดึง path จาก URL และตัด query string ออก (ถ้ามี)
 // $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// จัดการกับเส้นทางที่ได้รับจาก REQUEST_URI
-$basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])); // เปลี่ยน \ เป็น / เพื่อรองรับ Windows
-$request = str_replace($basePath, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)); // ตัด basePath ออก
+$request = $_SERVER['REQUEST_URI'];
 
 // ตรวจสอบเส้นทาง
 switch ($request) {
