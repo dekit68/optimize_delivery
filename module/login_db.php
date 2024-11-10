@@ -1,4 +1,5 @@
 <?php
+    session_start();
 
     $usern = $_POST['username'];
 
