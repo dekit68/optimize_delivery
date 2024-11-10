@@ -5,20 +5,22 @@ include 'module/function.php';
 // ดึง path จาก URL และตัด query string ออก (ถ้ามี)
 // $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-$request = basename($_SERVER['REQUEST_URI']);
+// จัดการกับเส้นทางที่ได้รับจาก REQUEST_URI
+$basePath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])); // เปลี่ยน \ เป็น / เพื่อรองรับ Windows
+$request = str_replace($basePath, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)); // ตัด basePath ออก
 
 // ตรวจสอบเส้นทาง
 switch ($request) {
-    case '':
+    case '/':
         require __DIR__ . '/view/home.php';
         break;
-    case 'cart':
+    case '/cart':
         require __DIR__ . '/view/cart.php';
         break;
-    case 'login':
+    case '/login':
         require __DIR__ . '/view/login.php';
         break;
-    case 'verify':
+    case '/verify':
         require __DIR__ . '/module/login_db.php';
         break;
     default:
@@ -27,7 +29,6 @@ switch ($request) {
         break;
 }
 ?>
-
 
 <head>
     <meta charset="UTF-8">
