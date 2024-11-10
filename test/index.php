@@ -12,6 +12,9 @@ switch ($request) {
     case '/':
         require __DIR__ . '/view/home.php';
         break;
+    case '/cart':
+        require __DIR__ . '/view/cart.php';
+        break;
     case '/login':
         require __DIR__ . '/view/login.php';
         break;
