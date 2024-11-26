@@ -1,37 +1,36 @@
-<?php 
+<?php
 
-include 'module/function.php';
+    $routes = [];
 
-// ดึง path จาก URL และตัด query string ออก (ถ้ามี)
-// $request = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    route('/', function() {
+        echo 'Hello Routes';
+    });
+    route('/404', function() {
+        echo 'not found';
+    });
 
-$request = $_SERVER['REQUEST_URI'];
+    function route(string $path, callable $callback) {
+        global $routes;
+        $routes[$path] = $callback;
+    }
 
-// ตรวจสอบเส้นทาง
-switch ($request) {
-    case '/':
-        require __DIR__ . '/view/home.php';
-        break;
-    case '/login':
-        require __DIR__ . '/view/login.php';
-        break;
-    case '/verify':
-        require __DIR__ . '/module/login_db.php';
-        break;
-    default:
-        http_response_code(404);
-        require __DIR__ . '/view/404.php';
-        break;
-}
+    run();
+
+    function run(){
+        global $routes;
+        $uri = $_SERVER['REQUEST_URI'];
+        $found = false;
+
+        foreach ($routes as $path => $callback){
+            if ($path !== $uri) continue;
+            $found = true;
+            $callback();
+        }
+
+        if (!$found) {
+            $notf = $routes['/404'];
+            $notf();
+        }
+    }
+
 ?>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $title ?></title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/sweetalert2/sweetalert2.min.css">
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/sweetalert2/sweetalert2.min.js"></script>
-    <script src="jquery-3.7.1.min.js"></script>
-</head>
