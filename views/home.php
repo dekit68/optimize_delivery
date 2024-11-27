@@ -13,11 +13,11 @@
         <div class="container">
             <h1>Login form</h1>
             <div class="form-floating">
-                <input type="text" name="username" id="" class='form-control' placeholder='dsdsd'>
+                <input type="text" name="username" class='form-control' placeholder='dsdsd'>
                 <label for="">Username</label>
             </div>
             <div class="form-floating">
-                <input type="password" name="password" id="" class='form-control' placeholder='dsdsd'>
+                <input type="password" name="password" class='form-control' placeholder='dsdsd'>
                 <label for="">Password</label>
             </div>
 
