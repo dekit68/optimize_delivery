@@ -10,8 +10,7 @@ try {
 
     if ($stmt->rowCount() > 0) {
         $row = $stmt->fetch();
-        $hashedPassword = $row['password'];
-        if (password_verify($password, $hashedPassword)) {
+        if ($password == $row['password']) {
             echo json_encode(array("status" => "success", "msg" => "Login successful!"));
             $_SESSION['user_login'] = $row['id'];
             $_SESSION['role'] = $row['role'];

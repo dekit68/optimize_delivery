@@ -1,9 +1,9 @@
 <?php 
 
 $host = 'localhost';
-$dbname = 'mec_system';
+$dbname = 'mec_foods';
 $user = 'root';
-$pass = '';
+$pass = '123456';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
