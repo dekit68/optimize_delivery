@@ -1,87 +1,110 @@
 <?php
-include_once 'database.php';
-include_once 'helpers/session_helper.php';
+
+$routes = [];
 session_start();
 
-if (isset($_SESSION['role'])) {
-    RBR($_SESSION['role']);
-    exit;
+route('/', function(){
+    Assets();
+    if (!isset($_SESSION['user_login']) || empty($_SESSION['user_login'])) {
+        include 'views/home.php'; 
+    } else {
+        include 'views/services/users.php';
+    }
+});
+
+route('/profile', function(){
+    ProtectRoute();
+    Assets();
+    include 'views/profile.php';
+});
+
+route('/update_profile', function(){
+    include 'functions/update_profile.php';
+});
+
+
+route('/dashboard', function(){
+    ProtectRoute();
+    Assets();
+
+    $user = $_SESSION['user_login'];
+    $role = $_SESSION['role'];
+    
+    if ($user) {
+        if ($role === 'admin') {
+            include 'views/dashboard/admin.php';
+        } elseif ($role === 'manager') {
+            include 'views/dashboard/manager.php';
+        } elseif ($role === 'delivery') {
+            include 'views/dashboard/delivery.php';
+        } else {
+            header("Location: /");
+        }
+    }
+});
+
+route('/auth/login', function(){
+    include 'functions/login.php';
+});
+
+route('/auth/register', function(){
+    include 'functions/register.php';
+});
+
+route('/logout', function(){
+    session_unset();
+    header("location: /");
+});
+
+route('/login', function(){
+    Assets();
+    include 'views/login.php';
+});
+
+route('/register', function(){
+    Assets();
+    include 'views/register.php';
+});
+
+route('/404', function(){
+    echo 'Not Found';
+});
+
+include 'functions/data.php';
+
+function route(string $path, callable $callback){
+    global $routes;
+    $routes[$path] = $callback;
 }
+
+function ProtectRoute() { 
+    if (!isset($_SESSION['user_login'])) {
+        header("location: /");
+        exit();
+    }
+}
+
+function Assets() {
+    include 'assets.php';
+}
+
+run();
+
+function run(){
+    global $routes;
+    $uri = $_SERVER['REQUEST_URI'];
+    $found = false;
+
+    foreach ($routes as $path => $callback) {
+        if ($path !== $uri) continue;
+        $found = true;
+        $callback();
+    }
+
+    if (!$found) {
+        $notf = $routes['/404'];
+        $notf();
+    }
+}
+
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>session_helper</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <script src="assets/js/bootstrap.bundle.js"></script>
-    <script src="assets/jquery-3.7.1.min.js"></script>
-    <script src="app.js"></script>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Food Delivery System</a>
-        </div>
-    </nav>
-
-    <div class="container mt-5">
-        <h1 class="text-center">Welcome to Food Delivery System</h1>
-        <div class="row mt-4">
-            <div class="col-md-6 offset-md-3">
-                <form action="process/login.php" method="POST" id="login">
-                    <div class="mb-3">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
-                <div class="mt-3">
-                    <p>Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Register here</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="registerModalLabel">Register</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="process/register.php" method="POST" id="register">
-                        <div class="mb-3">
-                            <label>Username</label>
-                            <input type="text" name="username" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Register</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        $(document).ready(function () {
-            send('#register');
-            send('#login');
-        })
-    </script>
-
-</body>
-
-</html>

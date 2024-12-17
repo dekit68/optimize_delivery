@@ -1,5 +1,5 @@
 <?php
-require '../database.php';
+require 'config.php';
 
 $minLength = 8;
 
