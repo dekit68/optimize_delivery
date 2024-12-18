@@ -44,9 +44,9 @@ function fd($table, $pdo) {
     }
 }
 
-function gwt($tb1, $tb2, $cl1, $cl2, $req, $repon, $pdo) {
+function gwt($tb1, $tb2, $cl1, $cl2, $req, $rep, $pdo) {
     try {
-        $stmt = $pdo->prepare("SELECT $tb1.*, $tb2.$req AS $repon FROM $tb1 INNER JOIN $tb2 ON $tb1.$cl1 = $tb2.$cl2");
+        $stmt = $pdo->prepare("SELECT $tb1.*, $tb2.$req AS $rep FROM $tb1 INNER JOIN $tb2 ON $tb1.$cl1 = $tb2.$cl2");
         $stmt->execute();
         $data = $stmt->fetchAll();
         return $data;
