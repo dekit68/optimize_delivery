@@ -1,11 +1,13 @@
+<?php
+    require 'config.php';
+    $users = fd('users', $pdo);
+?>
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | Dashboard</title>
-    <script src="assets/jquery-3.7.1.min.js"></script>
-    <script src="app.js"></script>
 </head>
 <body>
     <div class="container my-4">
@@ -19,7 +21,19 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td><?php echo $user['role']; ?></td>
+                        <td><?php echo $user['email']; ?></td>
+                        <td><?php echo $user['firstname']; ?></td>
+                        <td>
+                            <button class="btn btn-warning" onclick="editUser('<?php echo $user['id']; ?>')">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteUser('<?php echo $user['id']; ?>')">Delete</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
     </div>
 
@@ -51,11 +65,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        $(function() {
-            adminManage();
-        });
-    </script>
 </body>
 </html>

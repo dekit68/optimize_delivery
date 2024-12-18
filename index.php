@@ -70,7 +70,6 @@ route('/404', function(){
     echo 'Not Found';
 });
 
-include 'functions/data.php';
 
 function route(string $path, callable $callback){
     global $routes;

@@ -18,7 +18,6 @@ function getUserById($userId, $pdo) {
     try {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
         $stmt->execute([$userId]);
- 
         if ($row = $stmt->fetch()) {
             return $row;
         } else {
@@ -27,6 +26,18 @@ function getUserById($userId, $pdo) {
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
         return null;
+    }
+}
+
+function fd($table, $pdo) {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM " . $table);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+        return [];
     }
 }
 
