@@ -14,18 +14,21 @@ try {
 
 date_default_timezone_set('Asia/Bangkok');
 
-function getUserById($userId, $pdo) {
+function ProtectRoute() {
+    if (!isset($_SESSION["user_login"])) {
+        header('location: /');
+    }
+}
+
+function gud($userId, $pdo) {
     try {
         $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
         $stmt->execute([$userId]);
-        if ($row = $stmt->fetch()) {
-            return $row;
-        } else {
-            return null; 
-        }
+        $data = $stmt->fetch();
+        return $data;
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
-        return null;
+        return [];
     }
 }
 
@@ -33,7 +36,7 @@ function fd($table, $pdo) {
     try {
         $stmt = $pdo->prepare("SELECT * FROM " . $table);
         $stmt->execute();
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll();
         return $data;
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();

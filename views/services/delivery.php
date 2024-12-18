@@ -4,14 +4,17 @@
 ?>
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin | Dashboard</title>
+    <title>Delivery | Dashboard</title>
 </head>
+
 <body>
+    <?php include 'components/navbar.php' ?>
     <div class="container my-4">
-        <h1 class="text-center">Hello Admin</h1>
+        <h1>Hello Delivery</h1>
         <table id="admin-table" class="table table-bordered table-striped">
             <thead class="thead-dark">
                 <tr>
@@ -23,15 +26,16 @@
             </thead>
             <tbody>
                 <?php foreach ($users as $user): ?>
-                    <tr>
-                        <td><?php echo $user['role']; ?></td>
-                        <td><?php echo $user['email']; ?></td>
-                        <td><?php echo $user['firstname']; ?></td>
-                        <td>
-                            <button class="btn btn-warning" onclick="editUser('<?php echo $user['id']; ?>')">Edit</button>
-                            <button class="btn btn-danger" onclick="deleteUser('<?php echo $user['id']; ?>')">Delete</button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td><?php echo $user['role']; ?></td>
+                    <td><?php echo $user['email']; ?></td>
+                    <td><?php echo $user['firstname']; ?></td>
+                    <td>
+                        <button class="btn btn-warning" onclick="editUser('<?php echo $user['id']; ?>')">Edit</button>
+                        <button class="btn btn-danger"
+                            onclick="deleteUser('<?php echo $user['id']; ?>')">Delete</button>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -66,4 +70,5 @@
         </div>
     </div>
 </body>
+
 </html>

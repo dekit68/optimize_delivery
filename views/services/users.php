@@ -1,5 +1,6 @@
 <?php
-include 'config.php';
+    require 'config.php';
+    $foods = fd('food', $pdo);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,28 +9,28 @@ include 'config.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>User</title>
 </head>
 
 <body>
-    <div class="px-4 py-5 my-5 text-center">
-        <h1 class="display-5 fw-bold">Dashboard Page</h1>
-        <div class="col-lg-6 mx-auto">
-            <p class="lead mb-4">
-                <?php
-                if (isset($_SESSION['user_login'])) {
-                    $userId = $_SESSION['user_login'];
-                    $user = getUserById($userId, $pdo); 
-                    if ($user) {
-                        echo "User ID: " . $user['id'] . "<br>";
-                        echo "Name: " . $user['firstname'] . " " . $user['lastname'] . "<br>";
-                        echo "Email: " . $user['email'] . "<br>";
-                    } else {
-                        echo "User not found.";
-                    }
-                }
-                ?>
-            </p>
+    <?php include 'components/navbar.php'; ?>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Menu</h1>
+        
+        <div class="row">
+            <?php foreach ($foods as $food): ?>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="<?= $food['food_img']; ?>" class="card-img-top" alt="<?= $food['name']; ?>">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $food['name']; ?></h5>
+                            <p class="card-text"><?= $food['type_id']; ?></p>
+                            <p class="card-text"><strong>ราคา: <?= number_format($food['price'], 2); ?> บาท</strong></p>
+                            <a href="order.php?food_id=<?= $food['id']; ?>" class="btn btn-primary">เลือก</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </body>

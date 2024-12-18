@@ -1,10 +1,6 @@
 <?php
-include 'config.php';
-
-if (!isset($_SESSION['user_login'])) {
-    echo json_encode(['status' => 'error', 'message' => 'User not logged in.']);
-    exit;
-}
+session_start();
+include '../config.php';
 
 $userId = $_SESSION['user_login'];
 $firstname = $_POST['firstname'] ?? '';
@@ -13,10 +9,9 @@ $email = $_POST['email'] ?? '';
 $profile_image = null;
 
 if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
-    $uploadDir = 'uploads/profile_images/';
+    $uploadDir = '../uploads/profile/';
     $newFileName = time() . '_' . $_FILES['profile_image']['name'];
     $uploadFile = $uploadDir . $newFileName;
-    
     if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploadFile)) {
         $profile_image = $uploadFile;
     }
@@ -31,11 +26,11 @@ if ($firstname && $lastname && $email) {
         $params[] = $userId;
         $stmt->execute($params);
 
-        echo json_encode(['status' => 'success', 'message' => 'Profile updated successfully!']);
+        echo json_encode('Profile updated successfully!');
     } catch (PDOException $e) {
-        echo json_encode(['status' => 'error', 'message' => 'Error updating profile: ' . $e->getMessage()]);
+        echo json_encode($e->getMessage());
     }
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Please fill in all fields.']);
+    echo json_encode('Please fill in all fields.');
 }
 ?>

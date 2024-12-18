@@ -1,7 +1,6 @@
 <?php
-require 'config.php';
-
-$minLength = 8;
+session_start();
+require '../config.php';
 
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
@@ -9,22 +8,22 @@ $email = $_POST['email'];
 $password = $_POST['password'];
 $role = $_POST['role'];
 
-if (strlen($password) < $minLength) {
-    echo json_encode(array("status" => "error", "msg" => "Please enter a valid password"));
-} else{
+try {
     $stmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE email = ?');
     $stmt->execute([$email]);
     $userExists = $stmt->fetchColumn();
     if ($userExists) {
-        echo json_encode(array("status" => "error", "msg" => "Email already exists."));
+        echo json_encode("Email already exists.");
     } else {
         try {
             $stmt = $pdo->prepare("INSERT INTO users (firstname, lastname, email, password, role) VALUES (?, ?, ?, ?, ?)");
             $stmt->execute([$firstname, $lastname, $email, $password, $role]);
 
-            echo json_encode(array("status" => "success", "msg" => "Registration successfully!"));
+            echo json_encode("Registration successfully!");
         } catch (PDOException $e) {
-            echo json_encode(array("status" => "error", "msg" => "Something went wrong, please try again!"));
+            echo json_encode("Something went wrong, please try again!");
         }
     }
+} catch (PDOException $e) {
+    echo json_encode($e -> getMessage());
 }
