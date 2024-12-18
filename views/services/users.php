@@ -1,6 +1,6 @@
 <?php
     require 'config.php';
-    $foods = fd('food', $pdo);
+    $foods = gwt('food', 'food_type', 'type_id', 'id', 'name', 'food_type_name', $pdo);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,9 +24,9 @@
                         <img src="<?= $food['food_img']; ?>" class="card-img-top" alt="<?= $food['name']; ?>">
                         <div class="card-body">
                             <h5 class="card-title"><?= $food['name']; ?></h5>
-                            <p class="card-text"><?= $food['type_id']; ?></p>
+                            <p class="card-text"><?= $food['food_type_name']; ?></p>
                             <p class="card-text"><strong>ราคา: <?= number_format($food['price'], 2); ?> บาท</strong></p>
-                            <a href="order.php?food_id=<?= $food['id']; ?>" class="btn btn-primary">เลือก</a>
+                            <a href="?food_id=<?= $food['id']; ?>" class="btn btn-primary">เลือก</a>
                         </div>
                     </div>
                 </div>

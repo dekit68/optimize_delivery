@@ -44,4 +44,20 @@ function fd($table, $pdo) {
     }
 }
 
+function gwt($tb1, $tb2, $cl1, $cl2, $req, $repon, $pdo) {
+    try {
+        $sql = "SELECT $tb1.*, $tb2.$req AS $repon FROM $tb1 INNER JOIN $tb2 ON $tb1.$cl1 = $tb2.$cl2";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $data = $stmt->fetchAll();
+        return $data;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+        return [];
+    }
+}
+
+
+
+
 ?>
