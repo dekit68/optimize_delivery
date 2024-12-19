@@ -1,8 +1,8 @@
 <?php
     require 'config.php';
-    $stmt = $pdo->prepare("SELECT * FROM shop WHERE user_id = ?");
+    $stmt = $pdo->prepare("SELECT s.*, st.name AS shop_type_name FROM shop s JOIN shop_type st ON s.type_id = st.id WHERE s.user_id = ?");
     $stmt->execute([$_SESSION['user_login']]);
-    $datashop= $stmt->fetch();
+    $datashop = $stmt->fetch();
     $uhs = $datashop ? true : false;
 
     $users = fd('users', $pdo);
@@ -51,6 +51,7 @@
                         <p>ชื่อร้าน <?= $datashop['name'] ?></p>
                         <p>ที่อยู่ <?= $datashop['address'] ?></p>
                         <p>เบอร์โทรร้าน <?= $datashop['phone'] ?></p>
+                        <p>ประเภทร้านอาหาร <?= $datashop['shop_type_name'] ?></p>
                         
                     </div>
                     <?php    

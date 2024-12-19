@@ -70,7 +70,7 @@
                                                 <?php
                                                     if ($user['status'] == 0) {
                                                 ?>
-                                                <form action="functions/admin_access.php" method="get">
+                                                <form action="functions/user_access.php" method="get">
                                                     <input type="hidden" name="id" value="<?= $user['id'] ?>">
                                                     <input type="hidden" name="action" value="enable">
                                                     <button class="btn btn-success" type="submit">Enable</button>
@@ -78,7 +78,7 @@
                                                 <?php
                                                 } else {
                                                 ?>
-                                                <form action="functions/admin_access.php" method="get">
+                                                <form action="functions/user_access.php" method="get">
                                                     <input type="hidden" name="id" value="<?= $user['id'] ?>">
                                                     <input type="hidden" name="action" value="disable">
                                                     <button class="btn btn-danger" type="submit">Disable</button>
@@ -110,6 +110,9 @@
                                             <th>Id</th>
                                             <th>Name</th>
                                             <th>Address</th>
+                                            <th>Manager</th>
+                                            <th>Type</th>
+                                            <th>Phone</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -126,6 +129,34 @@
                                                 <?php echo $shop['address']; ?>
                                             </td>
                                             <td>
+                                                <?php echo $shop['user_id']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $shop['type_id']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $shop['phone']; ?>
+                                            </td>
+                                            <td>
+                                            <?php
+                                                if ($shop['approve'] == 0) {
+                                                ?>
+                                                <form action="functions/rep_access_shop.php" method="get">
+                                                    <input type="hidden" name="id" value="<?= $shop['id'] ?>">
+                                                    <input type="hidden" name="action" value="enable">
+                                                    <button class="btn btn-success" type="submit">Enable</button>
+                                                </form>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                <form action="functions/rep_access_shop.php" method="get">
+                                                    <input type="hidden" name="id" value="<?= $shop['id'] ?>">
+                                                    <input type="hidden" name="action" value="disable">
+                                                    <button class="btn btn-danger" type="submit">Disable</button>
+                                                </form>
+                                                <?php
+                                                }
+                                                ?>
                                                 <button class="btn btn-danger"
                                                     onclick="">Delete</button>
                                             </td>
