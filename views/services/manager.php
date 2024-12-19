@@ -1,3 +1,7 @@
+<?php
+    require 'config.php';
+    $users = fd('users', $pdo);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
