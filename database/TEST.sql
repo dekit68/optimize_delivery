@@ -27,7 +27,9 @@ CREATE TABLE IF NOT EXISTS `food` (
   `price` int(11) DEFAULT 0,
   `discount` int(11) DEFAULT 0,
   `food_img` longtext DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_food_food_type` (`type_id`),
+  CONSTRAINT `FK_food_food_type` FOREIGN KEY (`type_id`) REFERENCES `food_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table mec_foods.food: ~1 rows (approximately)
@@ -39,12 +41,43 @@ CREATE TABLE IF NOT EXISTS `food_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `shop_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_food_type_shop` (`shop_id`),
+  CONSTRAINT `FK_food_type_shop` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table mec_foods.food_type: ~1 rows (approximately)
 REPLACE INTO `food_type` (`id`, `name`, `shop_id`) VALUES
 	(1, 'fastfood', NULL);
+
+-- Dumping structure for table mec_foods.shop
+CREATE TABLE IF NOT EXISTS `shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `phone` int(11) DEFAULT NULL,
+  `approve` int(11) DEFAULT NULL,
+  `type_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_shop_users` (`user_id`),
+  KEY `FK_shop_shop_type` (`type_id`),
+  CONSTRAINT `FK_shop_shop_type` FOREIGN KEY (`type_id`) REFERENCES `shop_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_shop_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table mec_foods.shop: ~0 rows (approximately)
+
+-- Dumping structure for table mec_foods.shop_type
+CREATE TABLE IF NOT EXISTS `shop_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table mec_foods.shop_type: ~1 rows (approximately)
+REPLACE INTO `shop_type` (`id`, `name`) VALUES
+	(1, 'Esan');
 
 -- Dumping structure for table mec_foods.users
 CREATE TABLE IF NOT EXISTS `users` (
