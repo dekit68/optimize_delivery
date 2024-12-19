@@ -64,7 +64,7 @@
                                                 <?php echo $user['firstname']." ".$user['lastname']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $user['status'] ?>
+                                                <?= $user['status'] == 0 ? 'disable' : 'enable' ?>
                                             </td>
                                             <td>
                                                 <?php
@@ -102,7 +102,6 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
                                 <h3>Shop</h3>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createShop">Create</button>
                             </div>
                             <div class="card-body">
                                 <table id="admin-table" class="table table-bordered table-striped">
@@ -163,7 +162,7 @@
                                                 <?php echo $shop_type['name']; ?>
                                             </td>
                                             <td>
-                                                <form action="functions/shop_type_delete.php" method="get" id="delst">
+                                                <form action="functions/shop_type_delete.php" method="get" onsubmit="return confirmDelete('shop type');">
                                                     <input type="hidden" name="id" value="<?= $shop_type['id']; ?>">
                                                     <button class="btn btn-danger" type="submit">Delete</button>
                                                 </form>
@@ -183,7 +182,6 @@
     <script>
         $(document).ready(function () {
             send('#createShop');
-            send('#delst');
         })
     </script>
 

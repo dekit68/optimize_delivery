@@ -12,14 +12,17 @@
                 $user = gud($_SESSION['user_login'], $pdo)
                 ?>
                 <li class="nav-item">
-                    <a class="nav-link" href="/">หน้าหลัก</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/">เมนูอาหาร</a>
                 </li>
+                <?php 
+                    if ($_SESSION["role"] === 'user') {
+                ?>   
                 <li class="nav-item">
-                    <a class="nav-link" href="/">ติดต่อเรา</a>
+                    <a class="nav-link" href="/">ตะกล้า</a>
                 </li>
+                <?php 
+                    }
+                ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
@@ -27,6 +30,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+                        <li><a class="dropdown-item" href="history.php">ประวัติการสั่งอาหาร</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

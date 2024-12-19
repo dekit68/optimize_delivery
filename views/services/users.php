@@ -1,6 +1,6 @@
 <?php
     require 'config.php';
-    $foods = gwt('food', 'food_type', 'type_id', 'id', 'name', 'food_type_name', $pdo);
+    $foods = gwt('food', 'food_type', 'name', 'food_type_name', 'type_id', 'id',  $pdo);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <?php include 'navbar.php' ?>
+    <?php include 'navbar.php'; ?>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Menu</h1>
         

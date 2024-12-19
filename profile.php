@@ -17,7 +17,7 @@ ProtectRoute();
 </head>
 
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include 'navbar.php'; ?>
     <div class="container mt-5">
         <?php
         $userId = $_SESSION['user_login'];
@@ -66,8 +66,7 @@ ProtectRoute();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="functions/profile.php" method="POST" id="updateProfileForm"
-                        enctype="multipart/form-data">
+                    <form action="functions/profile.php" method="POST" id="updateProfileForm">
                         <div class="mb-3">
                             <label for="firstname" class="form-label">Firstname</label>
                             <input type="text" class="form-control" id="firstname" name="firstname"
@@ -110,8 +109,7 @@ ProtectRoute();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="functions/change.php" method="POST" id="changepassword"
-                        enctype="multipart/form-data">
+                    <form action="functions/change.php" method="POST" id="changepassword">
                         <div class="mb-3">
                             <label class="form-label">Password</label>
                             <input type="password" class="form-control" name="op" required>
@@ -133,8 +131,8 @@ ProtectRoute();
 
     <script>
     $(document).ready(function() {
-        send('#changepassword');
-        updateProfile();
+        send('changepassword');
+        send('updateProfileForm')
     })
     </script>
 

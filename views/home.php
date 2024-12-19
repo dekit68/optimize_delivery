@@ -36,8 +36,8 @@
 
     <script>
         $(document).ready(function () {
-            send("#register");
-            send("#login");
+            send("register");
+            send("login");
         });
     </script>
 </body>

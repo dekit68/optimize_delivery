@@ -16,10 +16,15 @@ try {
         echo json_encode("Email already exists.");
     } else {
         try {
-            $stmt = $pdo->prepare("INSERT INTO users (firstname, lastname, email, password, role) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$firstname, $lastname, $email, $password, $role]);
-
-            echo json_encode("Registration successfully!");
+            if ($role !== 'admin') {
+                $stmt = $pdo->prepare("INSERT INTO users (firstname, lastname, email, password, role) VALUES (?, ?, ?, ?, ?)");
+                $stmt->execute([$firstname, $lastname, $email, $password, $role]);
+                echo json_encode("Registration successfully!");
+            } else {
+                $stmt = $pdo->prepare("INSERT INTO users (firstname, lastname, email, password, role, status) VALUES (?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$firstname, $lastname, $email, $password, $role, 1]);
+                echo json_encode("Registration successfully!");
+            }
         } catch (PDOException $e) {
             echo json_encode("Something went wrong, please try again!");
         }

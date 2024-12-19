@@ -11,9 +11,13 @@ try {
     if ($stmt->rowCount() > 0) {
         $row = $stmt->fetch();
         if ($password == $row['password']) {
-            echo json_encode("Login successful!");
-            $_SESSION['user_login'] = $row['id'];
-            $_SESSION['role'] = $row['role'];
+            if ($row['status'] !== 0) {
+                echo json_encode("Login successful!");
+                $_SESSION['user_login'] = $row['id'];
+                $_SESSION['role'] = $row['role'];
+            } else {
+                echo json_encode("Not Access");
+            }
         } else {
             echo json_encode("Invalid credentials");
         }
