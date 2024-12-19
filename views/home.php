@@ -10,7 +10,7 @@
     <title>Login Page</title>
 </head>
 <body>
-<?php include 'components/navbar.php' ?>
+<?php include 'navbar.php' ?>
 <div class="container">
         <div class="py-5"></div>
         <h1 class="text-center">FOOD MEC</h1>

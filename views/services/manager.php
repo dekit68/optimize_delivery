@@ -10,7 +10,7 @@
     <title>Manager | Dashboard</title>
 </head>
 <body>
-    <?php include 'components/navbar.php' ?>
+    <?php include 'navbar.php' ?>
     <h1>Hello Manager</h1>
 </body>
 </html>

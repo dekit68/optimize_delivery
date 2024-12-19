@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <?php include 'components/navbar.php'; ?>
+    <?php include 'navbar.php' ?>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Menu</h1>
         

@@ -8,7 +8,6 @@ $password = $_POST['password'];
 try {
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
-
     if ($stmt->rowCount() > 0) {
         $row = $stmt->fetch();
         if ($password == $row['password']) {

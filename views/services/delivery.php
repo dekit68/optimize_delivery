@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <?php include 'components/navbar.php' ?>
+    <?php include 'navbar.php' ?>
     <div class="container my-4">
         <h1>Hello Delivery</h1>
         <table id="admin-table" class="table table-bordered table-striped">

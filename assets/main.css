@@ -1,0 +1,22 @@
+.sidebar {
+    background-color: #212529;
+    height: 100vh;
+}
+
+.sidebar .nav-link {
+    color: white;
+    padding: 25px;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgb(6, 78, 186);
+    color: white;
+}
+
+.contents {
+    display: none;
+}
+
+.contents:first-of-type {
+    display: block;
+}

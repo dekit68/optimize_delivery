@@ -11,25 +11,42 @@ function send(hashid) {
     $(document).ready(function () {
         $(hashid).submit(function (e) {
             e.preventDefault();
-
-            let furl = $(this).attr('action');
+            let url = $(this).attr('action');
             let method = $(this).attr('method');
-            let fdata = $(this).serialize();
+            let data = $(this).serialize();
 
             $.ajax({
-                url: furl,
+                url: url,
                 type: method,
-                data: fdata,
+                data: data,
                 success: function (data) {
                     console.log(data);
                     let result = JSON.parse(data);
                     alert(result)
-                    window.location.reload();
+                    location.reload();
                 }
             });
         });
     });
 }
+
+$(document).ready(function () {
+    const lastContent = localStorage.getItem('lastContent');
+    if (lastContent) {
+        $(".contents").hide();  
+        $("#" + lastContent).fadeIn(); 
+    } else {
+        $(".contents").hide(); 
+        $(".contents").first().fadeIn(); 
+    }
+    $(".nav-content").on("click", function (e) {
+        e.preventDefault();
+        let show = $(this).data("content");
+        $(".contents").hide();
+        $("#" + show).fadeIn();
+        localStorage.setItem('lastContent', show);
+    })
+})
 
 function updateProfile() {
     $(document).ready(function () {
