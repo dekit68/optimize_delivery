@@ -3,6 +3,7 @@
     include 'includes/modal.php';
     $users = fd('users', $pdo);
     $shop_types = fd('shop_type', $pdo);
+    $shops = fd('shop', $pdo);
 
     $filteredUsers = array_filter($users, function ($user) {
         return in_array($user['role'], ['manager', 'delivery']);
@@ -87,6 +88,30 @@
                         <td><?php echo $shop_type['name']; ?></td>
                         <td>
                             <button class="btn btn-danger" onclick="editUser('<?php echo $shop_type['id']; ?>')">Delete</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>    
+
+        <p>Table Shop</p> <button class="btn btn-primary">Add</button>
+        <table id="admin-table" class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($shops as $shop): ?>
+                    <tr>    
+                        <td><?php echo $shop['id']; ?></td>
+                        <td><?php echo $shop['name']; ?></td>
+                        <td><?php echo $shop['address']; ?></td>
+                        <td>
+                            <button class="btn btn-danger" onclick="editUser('<?php echo $shop['id']; ?>')">Delete</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
