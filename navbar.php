@@ -11,9 +11,6 @@
                 if (isset($_SESSION['user_login'])) { 
                 $user = gud($_SESSION['user_login'], $pdo)
                 ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="/">เมนูอาหาร</a>
-                </li>
                 <?php 
                     if ($_SESSION["role"] === 'user') {
                 ?>   
@@ -30,7 +27,6 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="profile.php">Profile</a></li>
-                        <li><a class="dropdown-item" href="history.php">ประวัติการสั่งอาหาร</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
