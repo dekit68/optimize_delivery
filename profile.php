@@ -110,7 +110,7 @@ ProtectRoute();
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="functions/change.php" method="POST" id="updateProfileForm"
+                    <form action="functions/change.php" method="POST" id="changepassword"
                         enctype="multipart/form-data">
                         <div class="mb-3">
                             <label class="form-label">Password</label>
@@ -133,6 +133,7 @@ ProtectRoute();
 
     <script>
     $(document).ready(function() {
+        send('#changepassword');
         updateProfile();
     })
     </script>

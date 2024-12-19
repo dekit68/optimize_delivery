@@ -3,7 +3,7 @@
 $host = 'localhost';
 $dbname = 'mec_foods';
 $user = 'root';
-$pass = '123456';
+$pass = '!dust@ntdotjsx';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);

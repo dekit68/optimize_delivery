@@ -9,14 +9,16 @@ try {
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->execute([$_SESSION['user_login']]);
     $row = $stmt->fetch();
-    if ($row['password'] !== $new_password) {
+    if ($row['password'] !== $password) {
+        echo json_encode("รหัสผ่านไม่ถูก!!!");
+    } else {
         try {
-            $stmt = $pdo->prepare("");
+            $stmt = $pdo->prepare("UPDATE users SET password=? WHERE id=?");
+            $stmt->execute([$new_password, $_SESSION['user_login']]);
+            echo json_encode("Success!@!!");
         } catch (PDOException $e) {
             echo json_encode($e -> getMessage());
         }
-    } else {
-        echo json_encode("Invalid credentials");
     }
 } catch (PDOException $e) {
     echo json_encode("Invalid credentials");
