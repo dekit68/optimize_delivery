@@ -99,3 +99,47 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="access_shopp" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">access_shopp</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="functions/req_access_shop.php" method="POST" id="reqshop">
+                    <div class="mb-3">
+                        <label class="form-label">Shop Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Shop Address</label>
+                        <input type="text" class="form-control" name="address" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Shop Phone</label>
+                        <input type="text" class="form-control" name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">ประเภทร้านอาหาร</label>
+                        <select name="type" required>
+                            <?php
+                            foreach ($shop_types as $shop_type):
+                            ?>
+                            <option value="<?= $shop_type['id'] ?>"><?= $shop_type['name'] ?></option>
+                            <?php
+                            endforeach;
+                            ?>
+                          
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

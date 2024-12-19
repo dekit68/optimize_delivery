@@ -27,20 +27,22 @@
                 <div class="container">
                     <div class="contents" id="menu">
                         <div class="container mt-5">
-                            <h1 class="text-center mb-4">Menu</h1>
+                            <h1 class="text-center mb-4">เมนู</h1>
 
                             <div class="row">
                                 <?php foreach ($foods as $food): ?>
                                 <div class="col-md-4">
                                     <div class="card">
-                                        <img src="<?= $food['food_img']; ?>" class="card-img-top"
-                                            alt="<?= $food['name']; ?>">
+                                        <img src="<?= $food['food_img']; ?>" class="card-img-top">
                                         <div class="card-body">
                                             <h5 class="card-title"><?= $food['name']; ?></h5>
                                             <p class="card-text"><?= $food['food_type_name']; ?></p>
-                                            <p class="card-text"><strong>ราคา: <?= number_format($food['price'], 2); ?>
-                                                    บาท</strong></p>
-                                            <a href="?food_id=<?= $food['id']; ?>" class="btn btn-primary">เลือก</a>
+                                            <p class="card-text"><strong>ราคา: <?= number_format($food['price'], 2); ?>บาท</strong></p>
+                                            <form action="functions/add_cart.php" method="post">
+                                                <input type="hidden" name="id" value="<?= $food['id'] ?>">
+                                                <button type="submit" class="btn btn-primary">เลือกลงตะกล้า</button>
+                                            </form>
+                                           
                                         </div>
                                     </div>
                                 </div>

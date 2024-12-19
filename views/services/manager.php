@@ -1,6 +1,12 @@
 <?php
     require 'config.php';
+    $stmt = $pdo->prepare("SELECT * FROM shop WHERE user_id = ?");
+    $stmt->execute([$_SESSION['user_login']]);
+    $datashop= $stmt->fetch();
+    $uhs = $datashop ? true : false;
+
     $users = fd('users', $pdo);
+    $shop_types = fd('shop_type', $pdo);
     $food_types = fd('food_type', $pdo);
     $foods = gwt('food', 'food_type', 'name', 'food_type_name', 'type_id', 'id',  $pdo);
     include 'modal.php';
@@ -18,13 +24,39 @@
         <div class="row">
             <div class="col-md-2 sidebar p-0">
                 <ul class="nav flex-column">
+                    <?php 
+                        if (empty($datashop['approve']) || $datashop['approve'] == 0) {
+                    ?>
+                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="access_shop">ขอใช้งานร้านอาหาร</a></li>
+                    <?php    
+                        } else {
+                    ?>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="food">เพิ่มรายการอาหาร</a></li>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="foodtype">เพิ่มหมวดหมู่อาหาร</a></li>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="shoptype">รายงานสรุปการขายเป็นวัน/เดือน/ปี</a></li>
+                    <?php      
+                        }
+                    ?>
                 </ul>
             </div>
             <div class="col-md-10 my-4">
                 <div class="container">
+                    <?php 
+                        if (empty($datashop['approve']) || $datashop['approve'] == 0) {
+                    ?>
+                    <div class="contents" id="access_shop">
+                  
+                        <h3>Access Shop</h3>
+                        <?= ! $uhs ? '<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#access_shopp">Request</button>' : '' ?>
+                        <p>ชื่อร้าน <?= $datashop['name'] ?></p>
+                        <p>ที่อยู่ <?= $datashop['address'] ?></p>
+                        <p>เบอร์โทรร้าน <?= $datashop['phone'] ?></p>
+                        
+                    </div>
+                    <?php    
+                        } else {
+                    ?>
+
                     <div class="contents" id="food">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
@@ -149,6 +181,9 @@
                             </div>
                         </div>
                     </div>
+                    <?php      
+                        }
+                    ?>
                 </div>
             </div>
         </div>
@@ -156,8 +191,9 @@
 
     <script>
         $(document).ready(function () {
-            send('#createShop');
-            sendwimg('createfood1');
+            send('createShop');
+            send('createfood1');
+            send('reqshop');
         })
     </script>
 </body>
