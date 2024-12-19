@@ -101,6 +101,7 @@
                     <th>Id</th>
                     <th>Name</th>
                     <th>Address</th>
+                    <th>Approve</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -110,6 +111,14 @@
                         <td><?php echo $shop['id']; ?></td>
                         <td><?php echo $shop['name']; ?></td>
                         <td><?php echo $shop['address']; ?></td>
+                        <td><?php 
+                        if ($shop['approve'] === 0 ) {
+                            echo "ยังไม่อนุมัติ"; 
+                        }else {
+                            echo "อนุมัติแล้ว";
+                        }
+                        
+                        ?></td>
                         <td>
                             <button class="btn btn-danger" onclick="editUser('<?php echo $shop['id']; ?>')">Delete</button>
                         </td>

@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               11.6.2-MariaDB - mariadb.org binary distribution
+-- Server version:               11.5.2-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.8.0.6908
+-- HeidiSQL Version:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -32,9 +32,7 @@ CREATE TABLE IF NOT EXISTS `food` (
   CONSTRAINT `FK_food_food_type` FOREIGN KEY (`type_id`) REFERENCES `food_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mec_foods.food: ~1 rows (approximately)
-REPLACE INTO `food` (`id`, `type_id`, `name`, `price`, `discount`, `food_img`) VALUES
-	(1, 1, 'ddd', 100, 0, '0');
+-- Data exporting was unselected.
 
 -- Dumping structure for table mec_foods.food_type
 CREATE TABLE IF NOT EXISTS `food_type` (
@@ -46,17 +44,15 @@ CREATE TABLE IF NOT EXISTS `food_type` (
   CONSTRAINT `FK_food_type_shop` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mec_foods.food_type: ~1 rows (approximately)
-REPLACE INTO `food_type` (`id`, `name`, `shop_id`) VALUES
-	(1, 'fastfood', NULL);
+-- Data exporting was unselected.
 
 -- Dumping structure for table mec_foods.shop
 CREATE TABLE IF NOT EXISTS `shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `address` varchar(50) NOT NULL,
-  `phone` int(11) DEFAULT NULL,
-  `approve` int(11) DEFAULT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `approve` int(11) DEFAULT 0,
   `type_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -64,9 +60,9 @@ CREATE TABLE IF NOT EXISTS `shop` (
   KEY `FK_shop_shop_type` (`type_id`),
   CONSTRAINT `FK_shop_shop_type` FOREIGN KEY (`type_id`) REFERENCES `shop_type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_shop_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mec_foods.shop: ~0 rows (approximately)
+-- Data exporting was unselected.
 
 -- Dumping structure for table mec_foods.shop_type
 CREATE TABLE IF NOT EXISTS `shop_type` (
@@ -75,9 +71,7 @@ CREATE TABLE IF NOT EXISTS `shop_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mec_foods.shop_type: ~1 rows (approximately)
-REPLACE INTO `shop_type` (`id`, `name`) VALUES
-	(1, 'Esan');
+-- Data exporting was unselected.
 
 -- Dumping structure for table mec_foods.users
 CREATE TABLE IF NOT EXISTS `users` (
@@ -92,12 +86,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table mec_foods.users: ~4 rows (approximately)
-REPLACE INTO `users` (`id`, `role`, `firstname`, `lastname`, `email`, `password`, `profile_image`, `status`) VALUES
-	(3, 'user', 'name', 'lname', 'user@gmail.com', 'mec123456', '../uploads/profile/1734488938_1733068191_รูป.jpg', 0),
-	(4, 'admin', 'name', 'lname', 'admin@gmail.com', 'mec123456', NULL, 0),
-	(5, 'delivery', 'Delivery', 'Nutto', 'delivery@gmail.com', 'mec123456', NULL, 0),
-	(6, 'manager', 'name', 'lname', 'manager@gmail.com', 'mec123456', NULL, 0);
+-- Data exporting was unselected.
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
