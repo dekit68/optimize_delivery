@@ -189,11 +189,10 @@
                                                 <?php echo $cart['qty']; ?>
                                             </td>
                                             <td>
-                                                <form action="functions/delete_cart.php" method="get">
-                                                <input type="hidden" name="id" value="<?= $cart['id'] ?>">
-                                                <button type="submit" class="btn btn-danger" onsubmit="confirm('ลบเลยนะ')">Delete</button>
+                                                <form action="functions/delete_cart.php" method="get" onsubmit="return confirm('ลบเลยนะ')">
+                                                    <input type="hidden" name="id" value="<?= $cart['id'] ?>">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
                                                 </form>
-                                             
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>
