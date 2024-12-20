@@ -54,7 +54,8 @@ CREATE TABLE IF NOT EXISTS `food` (
 
 -- Dumping data for table mec_foods.food: ~1 rows (approximately)
 REPLACE INTO `food` (`id`, `type_id`, `shop_id`, `name`, `price`, `discount`, `food_img`) VALUES
-	(6, 1, 9, 'แฮมเบอร์เก้อ', 100, 20, '../uploads/food/1734673008_Screenshot 2024-12-14 010429.png');
+	(6, 1, 9, 'แฮมเบอร์เก้อ', 100, 20, '../uploads/food/1734673008_Screenshot 2024-12-14 010429.png'),
+	(7, 1, 9, 'ssss', 123, 23, '../uploads/food/1734682775_Screenshot 2024-12-09 233655.png');
 
 -- Dumping structure for table mec_foods.food_type
 CREATE TABLE IF NOT EXISTS `food_type` (

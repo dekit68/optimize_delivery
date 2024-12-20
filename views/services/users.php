@@ -1,5 +1,6 @@
 <?php
     require 'config.php';
+
     $stmt=$pdo->prepare('SELECT food.*, food_type.name AS food_type_name, shop.name AS shop_name FROM food INNER JOIN food_type ON food.type_id = food_type.id INNER JOIN shop ON food.shop_id = shop.id');
     $stmt->execute();
     $foods = $stmt->fetchAll();
@@ -9,16 +10,15 @@
     $cartData = $stmt->fetch();
     $cartCount = $cartData['cart_count'] ?? 0;
 
-
-    $stmt=$pdo->prepare('SELECT cart.*, shop.name AS shop_name FROM cart INNER JOIN shop ON cart.shop_id = shop.id');
-    $stmt->execute();
+    $stmt=$pdo->prepare('SELECT cart.*, shop.name AS shop_name FROM cart INNER JOIN shop ON cart.shop_id = shop.id WHERE cart.user_id = ?');
+    $stmt->execute([$_SESSION['user_login']]);
     $carts = $stmt->fetchAll();
 
     $stmt=$pdo->prepare('SELECT shop.*, shop_type.name AS shop_type_name FROM shop INNER JOIN shop_type ON shop.type_id = shop_type.id');
     $stmt->execute();
     $shops = $stmt->fetchAll();
 
-    $stmt = $pdo->prepare('SELECT orders.*, shop.name AS shop_name FROM orders LEFT JOIN shop ON orders.shop_id = shop.id WHERE orders.user_id = ?');
+    $stmt = $pdo->prepare('SELECT orders_detail.*, shop.name AS shop_name FROM orders_detail LEFT JOIN shop ON orders_detail.shop_id = shop.id WHERE orders_detail.user_id = ?');
     $stmt->execute([$_SESSION['user_login']]);
     $datahistory = $stmt->fetchAll();
 ?>

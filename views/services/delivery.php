@@ -1,73 +1,184 @@
 <?php
     require 'config.php';
+
     $users = fd('users', $pdo);
+    $shop_types = fd('shop_type', $pdo);
+    $food_types = fd('food_type', $pdo);
+
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_login']]);
+    $user = $stmt->fetch();
+
+    $stmt = $pdo->prepare("SELECT shop.*, shop_type.name AS shop_type_name FROM shop JOIN shop_type ON shop.type_id = shop_type.id WHERE shop.user_id = ?");
+    $stmt->execute([$_SESSION['user_login']]);
+    $datashop = $stmt->fetch();
+    $uhs = $datashop ? true : false;
+
+    $stmt = $pdo->prepare('SELECT * FROM orders');
+    $stmt->execute();
+    $orders = $stmt->fetchAll();
+    include 'modal.php';
 ?>
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery | Dashboard</title>
 </head>
-
 <body>
     <?php include 'navbar.php' ?>
-    <div class="container my-4">
-        <h1>Hello Delivery</h1>
-        <table id="admin-table" class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Role</th>
-                    <th>Email</th>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?php echo $user['role']; ?></td>
-                    <td><?php echo $user['email']; ?></td>
-                    <td><?php echo $user['firstname']; ?></td>
-                    <td>
-                        <button class="btn btn-warning" onclick="editUser('<?php echo $user['id']; ?>')">Edit</button>
-                        <button class="btn btn-danger"
-                            onclick="deleteUser('<?php echo $user['id']; ?>')">Delete</button>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar p-0">
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="orders">รับรายการอาหาร</a></li>
+                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="orders">การอาหารที่รับแล้ว</a></li>
+                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="paymented">รายการชำระเงินสำเร็จ</a></li>
+                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="shoptype">รายงานสรุปการขายเป็นวัน/เดือน/ปี</a></li>
+             
+                </ul>
+            </div>
+            <div class="col-md-10 my-4">
+                <div class="container">
+        
+               
+                    <div class="contents" id="orders">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <h3>Orders</h3>
+                                <button class="btn btn-primary" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createfood">Create</button>
+                            </div>
+                            <div class="card-body">
+                                <table id="admin-table" class="table table-bordered table-striped ">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Price</th>
+                                            <th>Discount</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($orders as $order): ?>
+                                        <tr>
+                                            <td>
+                                                <?= $order['id']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $order['user_id']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $order['price']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $order['user_id']; ?>
+                                            </td>
+                                            <td>
+                                                
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-warning" onclick="">Edit</button>
+                                                <button class="btn btn-danger" onclick="">Delete</button>
+                                            </td>
 
-    <div class="modal fade" id="editModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">แก้ไขข้อมูลผู้ใช้</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editForm">
-                        <div class="form-group">
-                            <label for="role">Role</label>
-                            <input type="text" class="form-control" id="role" required>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" required>
+                    </div>
+
+                    <div class="contents" id="foodtype">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <h3>Shop</h3>
+                            </div>
+                            <div class="card-body">
+                                <table id="admin-table" class="table table-bordered table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($shops as $shop): ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $shop['id']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $shop['name']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $shop['address']; ?>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger" onclick="">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="firstname">Name</label>
-                            <input type="text" class="form-control" id="firstname" required>
+                    </div>
+
+                    <div class="contents" id="shoptype">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <h3>Shoptype</h3>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createShopType">Create</button>
+                            </div>
+                            <div class="card-body">
+                                <table id="admin-table" class="table table-bordered table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($shop_types as $shop_type): ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $shop_type['id']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $shop_type['name']; ?>
+                                            </td>
+                                            <td>
+                                                <form action="functions/shop_type_delete.php" method="get" onsubmit="return confirmDelete('shop type');">
+                                                    <input type="hidden" name="id" value="<?= $shop_type['id']; ?>">
+                                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <input type="hidden" id="userId">
-                        <button type="submit" class="btn btn-primary">บันทึก</button>
-                    </form>
+                    </div>
+            
                 </div>
             </div>
         </div>
     </div>
-</body>
 
+    <script>
+        $(document).ready(function () {
+            send('createShop');
+            send('createfood1');
+            send('reqshop');
+        })
+    </script>
+</body>
 </html>

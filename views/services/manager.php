@@ -1,6 +1,6 @@
 <?php
     require 'config.php';
-    
+
     $users = fd('users', $pdo);
     $shop_types = fd('shop_type', $pdo);
     $food_types = fd('food_type', $pdo);

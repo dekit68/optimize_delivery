@@ -15,7 +15,7 @@
                     if ($_SESSION["role"] === 'user') {
                 ?>   
                 <li class="nav-item position-relative">
-                    <a class="nav-link nav-content" href="#" data-content="cart">
+                    <a class="nav-link nav-content" href="/" data-content="cart">
                         ตะกล้า
                         <?php if ($cartCount > 0): ?>
                             <span class="position-absolute bottom-20 start-100 translate-middle badge rounded-pill bg-danger">
