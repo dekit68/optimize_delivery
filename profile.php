@@ -4,6 +4,12 @@ include 'config.php';
 include 'assets.php';
 ProtectRoute();
 
+$stmt = $pdo->prepare('SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = ?');
+$stmt->execute([$_SESSION['user_login']]);
+$cartData = $stmt->fetch();
+$cartCount = $cartData['cart_count'] ?? 0;
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
