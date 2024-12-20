@@ -44,16 +44,4 @@ function fd($table, $pdo) {
     }
 }
 
-function gwt($tb1, $tb2, $reqtb2, $as, $cal1, $cal2, $pdo) {
-    try {
-        $stmt = $pdo->prepare("SELECT $tb1.*, $tb2.$reqtb2 AS $as FROM $tb1 INNER JOIN $tb2 ON $tb1.$cal1 = $tb2.$cal2");
-        $stmt->execute();
-        $data = $stmt->fetchAll();
-        return $data;
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-        return [];
-    }
-}
-
 ?>

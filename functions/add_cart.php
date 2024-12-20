@@ -5,7 +5,7 @@ session_start();
 $id = $_POST['id'];
 $uid = $_SESSION['user_login'];
 
-$stmt = $pdo->prepare("SELECT food.*, ft.shop_id FROM food AS food JOIN food_type AS ft ON food.type_id = ft.id WHERE food.id = ?");
+$stmt = $pdo->prepare("SELECT * FROM food WHERE id = ?");
 $stmt->execute([$id]);
 $data = $stmt->fetch();
 

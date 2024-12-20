@@ -90,6 +90,7 @@
                         <img id="imagePreview" src="#" style="display:none; width: 100%; max-width: 300px;" />
                     </div>
                     <input type="file" class="form-control" name="food_image" onchange="previewImage(event)">
+                    <input type="hidden" name="shop" value="<?= $datashop['id'] ?>">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save</button>

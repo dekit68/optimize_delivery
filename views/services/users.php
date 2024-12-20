@@ -1,6 +1,26 @@
 <?php
     require 'config.php';
-    $foods = gwt('food', 'food_type', 'name', 'food_type_name', 'type_id', 'id',  $pdo);
+    $stmt=$pdo->prepare('SELECT food.*, food_type.name AS food_type_name FROM food INNER JOIN food_type ON food.type_id = food_type.id');
+    $stmt->execute();
+    $foods = $stmt->fetchAll();
+
+    $stmt = $pdo->prepare('SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = ?');
+    $stmt->execute([$_SESSION['user_login']]);
+    $cartData = $stmt->fetch();
+    $cartCount = $cartData['cart_count'] ?? 0;
+
+
+    $stmt=$pdo->prepare('SELECT cart.*, shop.name AS shop_name FROM cart INNER JOIN shop ON cart.shop_id = shop.id');
+    $stmt->execute();
+    $carts = $stmt->fetchAll();
+
+    $stmt=$pdo->prepare('SELECT shop.*, shop_type.name AS shop_type_name FROM shop INNER JOIN shop_type ON shop.type_id = shop_type.id');
+    $stmt->execute();
+    $shops = $stmt->fetchAll();
+
+    $stmt = $pdo->prepare('SELECT orders.*, shop.name AS shop_name FROM orders LEFT JOIN shop ON orders.shop_id = shop.id WHERE orders.user_id = ?');
+    $stmt->execute([$_SESSION['user_login']]);
+    $datahistory = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,28 +78,32 @@
                             </div>
                             <div class="card-body">
                                 <table id="admin-table" class="table table-bordered table-striped">
-                                    <thead class="thead-dark">
+                                    <thead class="thead-dark">  
                                         <tr>
                                             <th>Id</th>
-                                            <th>Name</th>
-                                            <th>Address</th>
+                                            <th>time</th>
+                                            <th>price</th>
+                                            <th>shop</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($shops as $shop): ?>
+                                        <?php foreach ($datahistory as $data): ?>
                                         <tr>
                                             <td>
-                                                <?php echo $shop['id']; ?>
+                                                <?php echo $data['id']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $shop['name']; ?>
+                                                <?php echo $data['time']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $shop['address']; ?>
+                                                <?php echo $data['price']; ?>
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger" onclick="">Delete</button>
+                                                <?php echo $data['shop_name']; ?>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-warning" onclick="">View</button>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>
@@ -100,24 +124,76 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Name</th>
+                                            <th>Address</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($shop_types as $shop_type): ?>
+                                    <?php foreach ($shops as $shop): ?>
                                         <tr>
                                             <td>
-                                                <?php echo $shop_type['id']; ?>
+                                                <?php echo $shop['id']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $shop_type['name']; ?>
+                                                <?php echo $shop['name']; ?>
                                             </td>
                                             <td>
-                                                <form action="functions/shop_type_delete.php" method="get"
-                                                    onsubmit="return confirmDelete('shop type');">
-                                                    <input type="hidden" name="id" value="<?= $shop_type['id']; ?>">
-                                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                                <?php echo $shop['address']; ?>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger" onclick="">Views</button>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contents" id="cart">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                            <?php foreach ($carts as $cart): ?>
+                                <h3>Cart</h3>
+                                <p>รวมทั้งหมด: <?= $cart['total_price'] * $cart['qty'] ?></p>
+                                <button class="btn btn-primary">Pay</button>
+                            </div>
+                            <div class="card-body">
+                                <table id="admin-table" class="table table-bordered table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Img</th>
+                                            <th>Name</th>
+                                            <th>ShopName</th>
+                                            <th>Qty</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <?php echo $cart['id']; ?>
+                                            </td>
+                                            <td>
+                                                <img src="<?= $cart['food_img'] ?>" alt="">
+                                            </td>
+                                            <td>
+                                                <?php echo $cart['name']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $cart['shop_name']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $cart['qty']; ?>
+                                            </td>
+                                            <td>
+                                                <form action="functions/delete_cart.php" method="get">
+                                                <input type="hidden" name="id" value="<?= $cart['id'] ?>">
+                                                <button type="submit" class="btn btn-danger" onsubmit="confirm('ลบเลยนะ')">Delete</button>
                                                 </form>
+                                             
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>

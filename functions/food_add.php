@@ -4,6 +4,7 @@ require '../config.php';
 
 $name = $_POST['name'];
 $type = $_POST['type'];
+$shop = $_POST['shop'];
 $price = $_POST['price'];
 $discount = $_POST['discount'];
 $food_image = null;
@@ -21,8 +22,8 @@ try {
     if ($ex) {
         echo json_encode("มีอยู่แล้ว");
     } else {
-        $stmt = $pdo->prepare('INSERT INTO food (name, type_id, price, discount, food_img) VALUES (?,?,?,?,?)');
-        $stmt->execute([$name, $type, $price, $discount, $food_image]);
+        $stmt = $pdo->prepare('INSERT INTO food (name, type_id, shop_id, price, discount, food_img) VALUES (?,?,?,?,?,?)');
+        $stmt->execute([$name, $type, $shop, $price, $discount, $food_image]);
         echo json_encode("สำเร็จ");
     }
 } catch (PDOException $e) {

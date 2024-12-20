@@ -14,8 +14,16 @@
                 <?php 
                     if ($_SESSION["role"] === 'user') {
                 ?>   
-                <li class="nav-item">
-                    <a class="nav-link" href="/">ตะกล้า</a>
+                <li class="nav-item position-relative">
+                    <a class="nav-link nav-content" href="#" data-content="cart">
+                        ตะกล้า
+                        <?php if ($cartCount > 0): ?>
+                            <span class="position-absolute bottom-20 start-100 translate-middle badge rounded-pill bg-danger">
+                                <?= $cartCount ?>
+                                <span class="visually-hidden">items in cart</span>
+                            </span>
+                        <?php endif; ?>
+                    </a>
                 </li>
                 <?php 
                     }

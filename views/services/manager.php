@@ -1,14 +1,18 @@
 <?php
     require 'config.php';
-    $stmt = $pdo->prepare("SELECT s.*, st.name AS shop_type_name FROM shop s JOIN shop_type st ON s.type_id = st.id WHERE s.user_id = ?");
+    
+    $users = fd('users', $pdo);
+    $shop_types = fd('shop_type', $pdo);
+    $food_types = fd('food_type', $pdo);
+
+    $stmt = $pdo->prepare("SELECT shop.*, shop_type.name AS shop_type_name FROM shop JOIN shop_type ON shop.type_id = shop_type.id WHERE shop.user_id = ?");
     $stmt->execute([$_SESSION['user_login']]);
     $datashop = $stmt->fetch();
     $uhs = $datashop ? true : false;
 
-    $users = fd('users', $pdo);
-    $shop_types = fd('shop_type', $pdo);
-    $food_types = fd('food_type', $pdo);
-    $foods = gwt('food', 'food_type', 'name', 'food_type_name', 'type_id', 'id',  $pdo);
+    $stmt = $pdo->prepare('SELECT food.*, food_type.name AS food_type_name FROM food INNER JOIN food_type ON food.type_id = food_type.id');
+    $stmt->execute();
+    $foods = $stmt->fetchAll();
     include 'modal.php';
 ?>
 <!DOCTYPE html>
