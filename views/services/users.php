@@ -1,6 +1,6 @@
 <?php
     require 'config.php';
-    $stmt=$pdo->prepare('SELECT food.*, food_type.name AS food_type_name FROM food INNER JOIN food_type ON food.type_id = food_type.id');
+    $stmt=$pdo->prepare('SELECT food.*, food_type.name AS food_type_name, shop.name AS shop_name FROM food INNER JOIN food_type ON food.type_id = food_type.id INNER JOIN shop ON food.shop_id = shop.id');
     $stmt->execute();
     $foods = $stmt->fetchAll();
 
@@ -56,13 +56,12 @@
                                         <img src="<?= $food['food_img']; ?>" class="card-img-top">
                                         <div class="card-body">
                                             <h5 class="card-title"><?= $food['name']; ?></h5>
-                                            <p class="card-text"><?= $food['food_type_name']; ?></p>
+                                            <p class="card-text"><?= $food['food_type_name'] . ' - ' ?> <a href="shop.php?id=<?= $food['shop_id'] ?>"><?= $food['shop_name'] ?></a></p>
                                             <p class="card-text"><strong>ราคา: <?= number_format($food['price'], 2); ?>บาท</strong></p>
                                             <form action="functions/add_cart.php" method="post">
                                                 <input type="hidden" name="id" value="<?= $food['id'] ?>">
                                                 <button type="submit" class="btn btn-primary">เลือกลงตะกล้า</button>
                                             </form>
-                                           
                                         </div>
                                     </div>
                                 </div>
