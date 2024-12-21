@@ -3,7 +3,8 @@
 
     $users = fd('users', $pdo);
     $shop_types = fd('shop_type', $pdo);
-    $food_types = fd('food_type', $pdo);
+
+    $stmt = $pdo->prepare("SELECT * FROM food_type");
 
     $stmt = $pdo->prepare("SELECT shop.*, shop_type.name AS shop_type_name FROM shop JOIN shop_type ON shop.type_id = shop_type.id WHERE shop.user_id = ?");
     $stmt->execute([$_SESSION['user_login']]);
@@ -65,7 +66,7 @@
                     <div class="contents" id="food">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
-                                <h3>Food</h3>
+                                <h3>อาหาร</h3>
                                 <button class="btn btn-primary" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createfood">Create</button>
                             </div>
                             <div class="card-body">
@@ -114,32 +115,32 @@
                     <div class="contents" id="foodtype">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
-                                <h3>Shop</h3>
+                                <h3>ประเภทอาหาร</h3>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createFoodType">Create</button>
                             </div>
                             <div class="card-body">
                                 <table id="admin-table" class="table table-bordered table-striped">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Id</th>
-                                            <th>Name</th>
-                                            <th>Address</th>
+                                            <th>Name</th>   
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($shops as $shop): ?>
+                                        <?php foreach ($food_types as $food_type): ?>
                                         <tr>
                                             <td>
-                                                <?php echo $shop['id']; ?>
+                                                <?php echo $food_type['id']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $shop['name']; ?>
+                                                <?php echo $food_type['name']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $shop['address']; ?>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-danger" onclick="">Delete</button>
+                                                <form action="functions/food_type_delete.php" method="get" onsubmit="return confirm('ลบเลยนะ')">
+                                                    <input type="hidden" name="id" value="<?= $food_type['id'] ?>">
+                                                    <button class="btn btn-danger">Delete</button>
+                                                </form>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>
@@ -196,7 +197,7 @@
 
     <script>
         $(document).ready(function () {
-            send('createShop');
+            send('createfoodtype');
             send('createfood1');
             send('reqshop');
         })
