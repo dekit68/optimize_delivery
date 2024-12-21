@@ -14,7 +14,7 @@
     $datashop = $stmt->fetch();
     $uhs = $datashop ? true : false;
 
-    $stmt = $pdo->prepare('SELECT orders.*, CONCAT(users.firstname, " ", users.lastname) AS username FROM orders INNER JOIN users ON orders.user_id = users.id WHERE delivery_id IS NULL');
+    $stmt = $pdo->prepare('SELECT orders.*, CONCAT(users.firstname, " ", users.lastname) AS username, FROM orders INNER JOIN users ON orders.user_id = users.id INNER JOIN orders_detail ON orders.id = orders_detail.id WHERE delivery_id IS NULL');
     $stmt->execute();
     $orders = $stmt->fetchAll();
     include 'modal.php';
@@ -33,7 +33,7 @@
             <div class="col-md-2 sidebar p-0">
                 <ul class="nav flex-column">
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="orders">รับรายการอาหาร</a></li>
-                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="orders">การอาหารที่รับแล้ว</a></li>
+                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="orders">ยืนยันรายการอาหาร</a></li>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="paymented">รายการชำระเงินสำเร็จ</a></li>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="shoptype">รายงานสรุปการขายเป็นวัน/เดือน/ปี</a></li>
              
@@ -54,6 +54,7 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Time</th>
+                                            <th>ShopName</th>
                                             <th>Emp</th>
                                             <th>Actions</th>
                                         </tr>
@@ -66,6 +67,9 @@
                                             </td>
                                             <td>
                                                 <?= $order['time']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $order['shopname']; ?>
                                             </td>
                                             <td>
                                                 <?= $order['username']; ?>
