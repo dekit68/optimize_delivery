@@ -144,3 +144,38 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="pay" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Confirm Payment</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="functions/checkout.php" method="POST" id="confirm_pay">
+                    <h6 class="mb-3 text-muted">Order Summary</h6>
+                    <div class="list-group mb-3">
+                        <?php foreach ($carts as $cart): ?>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0"><?= $cart['name'] ?></h6>
+                                <small class="text-muted">Qty: <?= $cart['qty'] ?> | Discount: <?= $cart['discount'] ?>%</small>
+                            </div>
+                            <div>
+                                <span class="text-muted">฿<?= $cart['price'] ?></span>
+                                <h6 class="mb-0 text-success">฿<?= $cart['total_price'] ?></h6>
+                            </div>
+                        </div>
+                        <input type="hidden" name="id[]" value="<?= $cart['id'] ?>">
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

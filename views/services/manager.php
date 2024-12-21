@@ -10,8 +10,8 @@
     $datashop = $stmt->fetch();
     $uhs = $datashop ? true : false;
 
-    $stmt = $pdo->prepare('SELECT food.*, food_type.name AS food_type_name FROM food INNER JOIN food_type ON food.type_id = food_type.id');
-    $stmt->execute();
+    $stmt = $pdo->prepare('SELECT food.*, food_type.name AS food_type_name FROM food INNER JOIN food_type ON food.type_id = food_type.id INNER JOIN shop ON food.shop_id = shop.id WHERE shop.user_id = ?');
+    $stmt->execute([$_SESSION['user_login']]);
     $foods = $stmt->fetchAll();
     include 'modal.php';
 ?>

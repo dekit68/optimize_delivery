@@ -212,7 +212,7 @@
 
     <script>
         $(document).ready(function () {
-            send('#createShop');
+            send('createShopType')
         })
     </script>
 

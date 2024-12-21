@@ -36,15 +36,7 @@ $cartCount = $cartData['cart_count'] ?? 0;
                 <div class="card border-light">
                     <div class="card-body text-center">
 
-                        <?php if (!empty($user['profile_image'])): ?>
-                        <img src="<?php echo $user['profile_image']; ?>" alt="Profile Image"
-                            class="img-fluid rounded-circle mb-3"
-                            style="width: 120px; height: 120px; object-fit: cover;">
-                        <?php else: ?>
-                        <img src="assets/images/150.png" alt="Default Profile Image"
-                            class="img-fluid rounded-circle mb-3"
-                            style="width: 120px; height: 120px; object-fit: cover;">
-                        <?php endif; ?>
+                        <img src="<?= $user['profile_image']; ?>" alt="none image" class="img-fluid mb-3" style="width: 120px; height: 120px; object-fit: cover;">
 
                         <h4 class="mb-3"><?php echo $user['firstname'] . ' ' . $user['lastname']; ?></h4>
                         <p><strong>User ID:</strong> <?php echo $user['id']; ?></p>
