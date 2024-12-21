@@ -1,10 +1,13 @@
 <?php
     require 'config.php';
 
+
     $users = fd('users', $pdo);
     $shop_types = fd('shop_type', $pdo);
 
-    $stmt = $pdo->prepare("SELECT * FROM food_type");
+    $stmt = $pdo->prepare("SELECT food_type.* FROM food_type INNER JOIN shop ON food_type.shop_id = shop.id WHERE shop.user_id = ?");
+    $stmt->execute([$_SESSION['user_login']]);
+    $food_types = $stmt->fetchAll();
 
     $stmt = $pdo->prepare("SELECT shop.*, shop_type.name AS shop_type_name FROM shop JOIN shop_type ON shop.type_id = shop_type.id WHERE shop.user_id = ?");
     $stmt->execute([$_SESSION['user_login']]);
@@ -101,7 +104,10 @@
                                             </td>
                                             <td>
                                                 <button class="btn btn-warning" onclick="">Edit</button>
-                                                <button class="btn btn-danger" onclick="">Delete</button>
+                                                <form action="functions/food_delete.php" method="get" onsubmit="return confirm('ลบเลยนะ')">
+                                                    <input type="hidden" name="id" value="<?= $food['id'] ?>">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
                                             </td>
 
                                         </tr>
