@@ -14,7 +14,7 @@
     $datashop = $stmt->fetch();
     $uhs = $datashop ? true : false;
 
-    $stmt = $pdo->prepare('SELECT * FROM orders');
+    $stmt = $pdo->prepare('SELECT orders.*, CONCAT(users.firstname, " ", users.lastname) AS username FROM orders INNER JOIN users ON orders.user_id = users.id WHERE delivery_id IS NULL');
     $stmt->execute();
     $orders = $stmt->fetchAll();
     include 'modal.php';
@@ -47,17 +47,14 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
                                 <h3>Orders</h3>
-                                <button class="btn btn-primary" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createfood">Create</button>
                             </div>
                             <div class="card-body">
                                 <table id="admin-table" class="table table-bordered table-striped ">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Price</th>
-                                            <th>Discount</th>
-                                            <th>Status</th>
+                                            <th>Time</th>
+                                            <th>Emp</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -68,20 +65,17 @@
                                                 <?= $order['id']; ?>
                                             </td>
                                             <td>
-                                                <?= $order['user_id']; ?>
+                                                <?= $order['time']; ?>
                                             </td>
                                             <td>
-                                                <?= $order['price']; ?>
+                                                <?= $order['username']; ?>
                                             </td>
                                             <td>
-                                                <?= $order['user_id']; ?>
-                                            </td>
-                                            <td>
-                                                
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-warning" onclick="">Edit</button>
-                                                <button class="btn btn-danger" onclick="">Delete</button>
+                                                <form action="functions/delivery_apply.php" method="post" onsubmit="return confirm('รับงานเลยไหม');" id="apply_order">
+                                                    <input type="hidden" name="id" value="<?= $order['id'] ?>">
+                                                    <button type="submit" class="btn btn-warning" >รับ</button>
+                                                </form>
+                                               
                                             </td>
 
                                         </tr>
@@ -175,9 +169,7 @@
 
     <script>
         $(document).ready(function () {
-            send('createShop');
-            send('createfood1');
-            send('reqshop');
+            send('apply_order');
         })
     </script>
 </body>

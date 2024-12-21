@@ -18,7 +18,7 @@
     $stmt->execute();
     $shops = $stmt->fetchAll();
 
-    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = ?');
+    $stmt = $pdo->prepare('SELECT orders.*, CONCAT(users.firstname," ",users.lastname) AS username FROM orders LEFT JOIN users ON orders.delivery_id = users.id WHERE orders.user_id = ?');
     $stmt->execute([$_SESSION['user_login']]);
     $dataOrders = $stmt->fetchAll();
 
@@ -51,33 +51,8 @@
                     <div class="contents" id="menu">
                         <div class="container mt-5">
                             <h1 class="text-center mb-4">เมนู</h1>
-
                             <div class="row">
                                 <?php foreach ($foods as $food): ?>
-                                    <div class="modal fade" id="addcart" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content shadow-lg border-0">
-                                                <div class="modal-header bg-primary text-white">
-                                                    <h5 class="modal-title">Confirm Add</h5>
-                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="functions/add_cart.php" method="post">
-                                                        <h6 class="mb-3 text-muted">จำนวน</h6>
-                                                        <div class="list-group mb-3">
-                                                            <input type="number" name="qty" value="1" >
-                                                            <input type="hidden" name="id" value="<?= $food['id'] ?>">
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Confirm</button>
-                                                 
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-md-4">
                                         <div class="card">
                                             <img src="<?= $food['food_img']; ?>" class="card-img-top food-img" width="50px">
@@ -85,10 +60,30 @@
                                                 <h5 class="card-title"><?= $food['name']; ?></h5>
                                                 <p class="card-text"><?= $food['food_type_name'] . ' - ' ?> <a href="shop.php?id=<?= $food['shop_id'] ?>"><?= $food['shop_name'] ?></a></p>
                                                 <p class="card-text"><strong>ราคา: <?= number_format($food['price'], 2); ?>บาท</strong></p>
-                                                <form action="functions/add_cart.php" method="post">
-                                                    <input type="hidden" name="id" value="<?= $food['id'] ?>">
-                                                </form>
-                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addcart">เลือกลงตะกล้า</button>
+                                                <div class="modal fade" id="addcart-<?= $food['id']; ?>" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content shadow-lg border-0">
+                                                            <div class="modal-header bg-primary text-white">
+                                                                <h5 class="modal-title">Confirm Add</h5>
+                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="functions/add_cart.php" method="post">
+                                                                    <h6 class="mb-3 text-muted">จำนวน</h6>
+                                                                    <div class="list-group mb-3">
+                                                                        <input type="number" name="qty" value="1" >
+                                                                        <input type="hidden" name="id" value="<?= $food['id'] ?>">
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addcart-<?= $food['id']; ?>">เลือกลงตะกล้า</button>
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +124,7 @@
                                             <td>
                                                 <?php
                                                 if (!empty($data['delivery_id'])) {
-                                                    echo $data['delivery_id']; 
+                                                    echo $data['username']; 
                                                 } else {
                                                     echo 'ยังไม่มีผู้ส่ง !!!'; 
                                                 }
