@@ -18,7 +18,7 @@
     $stmt->execute();
     $shops = $stmt->fetchAll();
 
-    $stmt = $pdo->prepare('SELECT orders_detail.*, shop.name AS shop_name FROM orders_detail LEFT JOIN shop ON orders_detail.shop_id = shop.id WHERE orders_detail.user_id = ?');
+    $stmt = $pdo->prepare('SELECT * FROM orders WHERE user_id = ?');
     $stmt->execute([$_SESSION['user_login']]);
     $datahistory = $stmt->fetchAll();
 ?>
@@ -151,65 +151,65 @@
                     </div>
 
                     <div class="contents" id="cart">
-                    <div class="card">
-                        <div class="card-header d-flex justify-content-between">
-                            <h3>Cart</h3>
-                            <?php if (!empty($carts)): ?>
-                                <?php
-                                    $totalPrice = 0;
-                                    foreach ($carts as $cart) {
-                                        $totalPrice += $cart['total_price'] * $cart['qty'];
-                                    }
-                                ?>
-                                <p>รวมทั้งหมด: <?= number_format($totalPrice, 2) ?> บาท</p>
-                            <?php else: ?>
-                                <p>ตะกร้าว่าง</p>
-                            <?php endif; ?>
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <h3>Cart</h3>
+                                <?php if (!empty($carts)): ?>
+                                    <?php
+                                        $totalPrice = 0;
+                                        foreach ($carts as $cart) {
+                                            $totalPrice += $cart['total_price'] * $cart['qty'];
+                                        }
+                                    ?>
+                                    <p>รวมทั้งหมด: <?= number_format($totalPrice, 2) ?> บาท</p>
+                                <?php else: ?>
+                                    <p>ตะกร้าว่าง</p>
+                                <?php endif; ?>
 
-                            <button class="btn btn-primary">Pay</button>
-                        </div>
+                                <button class="btn btn-primary">Pay</button>
+                            </div>
 
-                        <div class="card-body">
-                            <table id="admin-table" class="table table-bordered table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Img</th>
-                                        <th>Name</th>
-                                        <th>ShopName</th>
-                                        <th>Qty</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (!empty($carts)): ?>
-                                        <?php foreach ($carts as $cart): ?>
+                            <div class="card-body">
+                                <table id="admin-table" class="table table-bordered table-striped">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <td><?= $cart['id'] ?></td>
-                                            <td>
-                                                <img width="150px" src="<?= $cart['food_img'] ?>" alt="">
-                                            </td>
-                                            <td><?= $cart['name'] ?></td>
-                                            <td><?= $cart['shop_name'] ?></td>
-                                            <td><?= $cart['qty'] ?></td>
-                                            <td>
-                                                <form action="functions/delete_cart.php" method="get" onsubmit="return confirm('ลบเลยนะ')">
-                                                    <input type="hidden" name="id" value="<?= $cart['id'] ?>">
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </td>
+                                            <th>Id</th>
+                                            <th>Img</th>
+                                            <th>Name</th>
+                                            <th>ShopName</th>
+                                            <th>Qty</th>
+                                            <th>Actions</th>
                                         </tr>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <tr>
-                                            <td colspan="6" class="text-center">ไม่มีสินค้าในตะกร้า</td>
-                                        </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($carts)): ?>
+                                            <?php foreach ($carts as $cart): ?>
+                                            <tr>
+                                                <td><?= $cart['id'] ?></td>
+                                                <td>
+                                                    <img width="150px" src="<?= $cart['food_img'] ?>" alt="">
+                                                </td>
+                                                <td><?= $cart['name'] ?></td>
+                                                <td><?= $cart['shop_name'] ?></td>
+                                                <td><?= $cart['qty'] ?></td>
+                                                <td>
+                                                    <form action="functions/delete_cart.php" method="get" onsubmit="return confirm('ลบเลยนะ')">
+                                                        <input type="hidden" name="id" value="<?= $cart['id'] ?>">
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="6" class="text-center">ไม่มีสินค้าในตะกร้า</td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>

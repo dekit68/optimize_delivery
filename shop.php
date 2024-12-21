@@ -25,10 +25,46 @@ $data = $stmt->fetch();
 </head>
 <body>
     <?php include 'navbar.php' ?>
-    <p>ชื่อร้าน: <?= $data['name'] ?></p>
-    <p>ประเภทร้านอาหาร: <?= $data['shop_type_name'] ?></p>
-    <p>ที่อยู่: <?= $data['address'] ?></p>
-    <p>เบอร์โทรร้าน: <?= $data['phone'] ?></p>
-    <p>ผู้จัดการร้าน: <?= $data['username'] ?></p>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-dark text-light">
+                        <h2><?= $data['name'] ?></h2>
+                    </div>
+
+                    <div class="card-body bg-light">
+                            <div class="row m-4">
+                                <div class="col-sm-12 col-md-12 mt-1 mb-2 border-detail">
+                                    <h5 class="me-2 text-dark fw-bold">ผู้จัดการร้าน</h5>
+                                    <p class="lead text-secondary"><?= $data['username'] ?></p>
+                                </div>
+
+                                <div class="col-md-6 mb-1">
+                                    <h5 class="me-2 text-dark fw-bold">ชื่อร้าน</h5>
+                                    <p class="lead text-secondary"><?= $data['name'] ?></p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h5 class="me-2 text-dark fw-bold">ประเภทร้านอาหาร</h5>
+                                    <p class="lead text-secondary"><?= $data['shop_type_name'] ?></p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h5 class="me-2 text-dark fw-bold">ที่อยู่</h5>
+                                    <p class="lead text-secondary"><?= $data['address'] ?></p>
+                                </div>
+
+                                <div class="col-md-6 mb-1">
+                                    <h5 class="me-2 text-dark fw-bold">เบอร์โทรร้าน</h5>
+                                    <p class="lead text-secondary"><?= $data['phone'] ?></p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
