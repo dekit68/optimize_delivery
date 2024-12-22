@@ -48,12 +48,20 @@
             </div>
             <div class="col-md-10 my-4">
                 <div class="container">
+                    
                     <div class="contents" id="menu">
                         <div class="container mt-5">
                             <h1 class="text-center mb-4">เมนู</h1>
-                            <div class="row">
+                            <select id="shop-filter" class="form-select mb-4">
+                                <option value="all">แสดงทั้งหมด</option>
                                 <?php foreach ($foods as $food): ?>
-                                    <div class="col-md-4">
+                                    <option value="<?= $food['shop_id'] ?>"><?= $food['shop_name'] ?></option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <div class="row" id="food-list">
+                                <?php foreach ($foods as $food): ?>
+                                    <div class="col-md-4 food-card" data-shop-id="<?= $food['shop_id'] ?>">
                                         <div class="card">
                                             <img src="<?= $food['food_img']; ?>" class="card-img-top food-img" width="50px">
                                             <div class="card-body">
@@ -256,6 +264,17 @@
     </div>
 
     <script>
+        $('#shop-filter').on('change', function () {
+            const selectedShopId = $(this).val();
+            $('.food-card').each(function () {
+                if (selectedShopId === 'all' || $(this).data('shop-id') == selectedShopId) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
         $(document).ready(function () {
             send('confirm_pay');
         })
