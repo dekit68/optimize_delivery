@@ -18,7 +18,7 @@
     $stmt->execute();
     $shops = $stmt->fetchAll();
 
-    $stmt = $pdo->prepare('SELECT orders.*, CONCAT(users.firstname," ",users.lastname) AS username FROM orders LEFT JOIN users ON orders.delivery_id = users.id WHERE orders.user_id = ?');
+    $stmt = $pdo->prepare('SELECT orders.*, CONCAT(users.firstname," ",users.lastname) AS username, orders_detail.price AS price, orders_detail.discount AS discount FROM orders JOIN users ON orders.delivery_id = users.id JOIN orders_detail ON orders.id = orders_detail.id WHERE orders.user_id = ?');
     $stmt->execute([$_SESSION['user_login']]);
     $dataOrders = $stmt->fetchAll();
 
@@ -106,9 +106,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
 
                     <div class="contents" id="history">
                         <div class="card">
@@ -120,10 +117,9 @@
                                     <thead class="thead-dark">  
                                         <tr>
                                             <th>#</th>
-                                            <th>time</th>
-                                            <th>price</th>
+                                            <th>ราคารวม</th>
+                                            <th>ส่วนลด</th>
                                             <th>ผู้ส่งอาหาร</th>
-                                            <th>time</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -131,13 +127,13 @@
                                         <?php foreach ($dataOrders as $data): ?>
                                         <tr>
                                             <td>
-                                                <?php echo $data['id']; ?>
+                                                <?php echo $data['time']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $data['delivery_status']; ?>
+                                                <?php echo $data['price']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $data['pay_status']; ?>
+                                                <?php echo $data['discount']; ?>
                                             </td>
                                             <td>
                                                 <?php
@@ -147,9 +143,6 @@
                                                     echo 'ยังไม่มีผู้ส่ง !!!'; 
                                                 }
                                                 ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $data['time']; ?>
                                             </td>
                                             <td>
                                                 <button class="btn btn-warning" onclick="">View</button>
