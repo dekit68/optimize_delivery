@@ -42,10 +42,6 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 
-function confirmDelete(title) {
-    return confirm("Are you sure you want to delete this " + title + "?");
-}
-
 $(document).ready(function () {
     const lastContent = localStorage.getItem('lastContent');
     if (lastContent) {

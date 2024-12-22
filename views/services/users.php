@@ -50,16 +50,25 @@
                     <div class="contents" id="menu">
                         <div class="container mt-5">
                             <h1 class="text-center mb-4">เมนู</h1>
-                            <select id="shop-filter" class="form-select mb-4">
-                                <option value="all">แสดงทั้งหมด</option>
-                                <?php foreach ($foods as $food): ?>
-                                    <option value="<?= $food['shop_id'] ?>"><?= $food['shop_name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                            <div class="d-flex justify-content-between mb-4">
+                                <select id="shop-filter" class="form-select me-2" style="width: 48%;">
+                                    <option value="all">แสดงทั้งหมด</option>
+                                    <?php foreach ($shops as $shop): ?>
+                                        <option value="<?= $shop['id'] ?>"><?= $shop['name'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+
+                                <select id="type-filter" class="form-select" style="width: 48%;">
+                                    <option value="all">แสดงทั้งหมด</option>
+                                    <?php foreach ($foods as $food): ?>
+                                        <option value="<?= $food['type_id'] ?>"><?= $food['food_type_name'] ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
                             <div class="row" id="food-list">
                                 <?php foreach ($foods as $food): ?>
-                                    <div class="col-md-4 food-card" data-shop-id="<?= $food['shop_id'] ?>">
+                                    <div class="col-md-4 food-card" data-shop-id="<?= $food['shop_id'] ?>" data-type-id="<?= $food['type_id'] ?>">
                                         <div class="card">
                                             <img src="<?= $food['food_img']; ?>" class="card-img-top food-img" width="50px">
                                             <div class="card-body">
@@ -77,7 +86,7 @@
                                                                 <form action="functions/add_cart.php" method="post">
                                                                     <h6 class="mb-3 text-muted">จำนวน</h6>
                                                                     <div class="list-group mb-3">
-                                                                        <input type="number" name="qty" value="1" >
+                                                                        <input type="number" name="qty" value="1">
                                                                         <input type="hidden" name="id" value="<?= $food['id'] ?>">
                                                                     </div>
                                                                     <div class="modal-footer">
@@ -97,6 +106,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
 
                     <div class="contents" id="history">
                         <div class="card">
@@ -236,6 +248,17 @@
                 }
             });
         });
+
+        $('#type-filter').on('change', function () {
+            const selectedTypeId = $(this).val();
+            $('.food-card').each(function () {
+                if (selectedTypeId === 'all' || $(this).data('type-id') == selectedTypeId) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        })
 
         $(document).ready(function () {
             send('confirm_pay');
