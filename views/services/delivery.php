@@ -165,6 +165,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <?php include 'profile.php'; ?>
             
                 </div>
             </div>

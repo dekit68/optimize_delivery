@@ -1,60 +1,32 @@
-<?php
-session_start();
-include 'config.php';
-include 'assets.php';
-ProtectRoute();
-
-$stmt = $pdo->prepare('SELECT COUNT(*) AS cart_count FROM cart WHERE user_id = ?');
-$stmt->execute([$_SESSION['user_login']]);
-$cartData = $stmt->fetch();
-$cartCount = $cartData['cart_count'] ?? 0;
-
-
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <script src="app.js"></script>
-    <script src="assets/jquery-3.7.1.min.js"></script>
-</head>
-
-<body>
-    <?php include 'navbar.php'; ?>
-    <div class="container mt-5">
-        <?php
+<div class="contents" id="profile">
+    <?php
         $userId = $_SESSION['user_login'];
         $user = gud($userId, $pdo);
-
         if ($user) {
-            ?>
+        ?>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card border-light">
                     <div class="card-body text-center">
 
-                        <img src="<?= $user['profile_image']; ?>" alt="none image" class="img-fluid mb-3" style="width: 120px; height: 120px; object-fit: cover;">
+                    <img src="<?= $user['profile_image']; ?>" alt="none image" class="img-fluid mb-3" style="width: 120px; height: 120px; object-fit: cover;">
 
-                        <h4 class="mb-3"><?php echo $user['firstname'] . ' ' . $user['lastname']; ?></h4>
+                    <h4 class="mb-3"><?php echo $user['firstname'] . ' ' . $user['lastname']; ?></h4>
                         <p><strong>User ID:</strong> <?php echo $user['id']; ?></p>
                         <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
                         <p><strong>Role:</strong> <?php echo ucfirst($user['role']); ?></p>
 
-                        <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal"
-                            data-bs-target="#change">Change Password</button>
-                        <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal"
-                            data-bs-target="#editProfileModal">Edit Profile</button>
+                    <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#change">Change Password</button>
+                    <button class="btn btn-outline-primary mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
                     </div>
                 </div>
             </div>
         </div>
-        <?php
+    <?php
         }
-        ?>
-    </div>
+    ?>
+</div>
+
 
     <div class="modal fade" id="editProfileModal">
         <div class="modal-dialog">
@@ -133,7 +105,3 @@ $cartCount = $cartData['cart_count'] ?? 0;
         send('updateProfileForm')
     })
     </script>
-
-</body>
-
-</html>

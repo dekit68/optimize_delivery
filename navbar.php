@@ -34,7 +34,7 @@
                         <?= $user['firstname']. " " . $user['lastname'] ?>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+                        <li><a class="dropdown-item nav-content" href="/" data-content="profile">Profile</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

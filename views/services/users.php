@@ -43,12 +43,10 @@
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="menu">เมนูอาหาร</a></li>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="history">การสั่งอาหาร</a></li>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="history">ประวัติการสั่งอาหาร</a></li>
-                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="shop">ร้านอาหารทั้งหมด</a></li>
                 </ul>
             </div>
             <div class="col-md-10 my-4">
                 <div class="container">
-                    
                     <div class="contents" id="menu">
                         <div class="container mt-5">
                             <h1 class="text-center mb-4">เมนู</h1>
@@ -152,44 +150,6 @@
                         </div>
                     </div>
 
-                    <div class="contents" id="shop">
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between">
-                                <h3>Shop</h3>
-                            </div>
-                            <div class="card-body">
-                                <table id="admin-table" class="table table-bordered table-striped">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Name</th>
-                                            <th>Address</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php foreach ($shops as $shop): ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $shop['id']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $shop['name']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $shop['address']; ?>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-danger" onclick="">Views</button>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="contents" id="cart">
                         <div class="card shadow-sm">
                             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -257,6 +217,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <?php include 'profile.php'; ?>
 
                 </div>
             </div>

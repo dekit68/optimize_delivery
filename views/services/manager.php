@@ -196,6 +196,8 @@
                     <?php      
                         }
                     ?>
+
+                    <?php include 'profile.php'; ?>
                 </div>
             </div>
         </div>
