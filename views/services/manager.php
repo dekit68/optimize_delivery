@@ -17,6 +17,12 @@
     $stmt = $pdo->prepare('SELECT food.*, food_type.name AS food_type_name FROM food INNER JOIN food_type ON food.type_id = food_type.id INNER JOIN shop ON food.shop_id = shop.id WHERE shop.user_id = ?');
     $stmt->execute([$_SESSION['user_login']]);
     $foods = $stmt->fetchAll();
+
+    $stmt = $pdo->prepare('SELECT orders.*, CONCAT(users.firstname, " ", users.lastname) AS username, users.address AS address, shop.name AS shopname FROM orders INNER JOIN users ON users.id = orders.user_id INNER JOIN shop ON shop.id = orders.shop_id WHERE shop_id = ? AND delivery_status = 1');
+    $stmt->execute([$datashop['id']]);
+    $order_success = $stmt->fetchAll();
+
+
     include 'modal.php';
 ?>
 <!DOCTYPE html>
@@ -41,7 +47,7 @@
                     ?>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="food">เพิ่มรายการอาหาร</a></li>
                     <li class="nav-item"><a href="" class="nav-link nav-content" data-content="foodtype">เพิ่มหมวดหมู่อาหาร</a></li>
-                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="shoptype">รายงานสรุปการขายเป็นวัน/เดือน/ปี</a></li>
+                    <li class="nav-item"><a href="" class="nav-link nav-content" data-content="paymented">รายงานสรุปการขายเป็นวัน/เดือน/ปี</a></li>
                     <?php      
                         }
                     ?>
@@ -156,36 +162,48 @@
                         </div>
                     </div>
 
-                    <div class="contents" id="shoptype">
+                    <div class="contents" id="paymented">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
-                                <h3>Shoptype</h3>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createShopType">Create</button>
+                                <h3>Paymented</h3>
                             </div>
                             <div class="card-body">
-                                <table id="admin-table" class="table table-bordered table-striped">
+                                <table id="admin-table" class="table table-bordered table-striped ">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Name</th>
+                                            <th>#</th>
+                                            <th>Time</th>
+                                            <th>Emp</th>
+                                            <th>Address</th>
+                                            <th>ShopName</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($shop_types as $shop_type): ?>
+                                        <?php foreach ($order_success as $orders): ?>
                                         <tr>
                                             <td>
-                                                <?php echo $shop_type['id']; ?>
+                                                <?= $orders['id']; ?>
                                             </td>
                                             <td>
-                                                <?php echo $shop_type['name']; ?>
+                                                <?= $orders['time']; ?>
                                             </td>
                                             <td>
-                                                <form action="functions/shop_type_delete.php" method="get" onsubmit="return confirm('shop type');">
-                                                    <input type="hidden" name="id" value="<?= $shop_type['id']; ?>">
-                                                    <button class="btn btn-danger" type="submit">Delete</button>
-                                                </form>
+                                                <?= $orders['username']; ?>
                                             </td>
+                                            <td>
+                                                <?= $orders['address']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $orders['shopname']; ?>
+                                            </td>
+                                            <td>
+                                                <form action="bill.php" method="get">
+                                                    <input type="hidden" name="id" value="<?= $orders['id'] ?>">
+                                                    <button type="submit" class="btn btn-warning">พิมพ์ใบเสร็จ</button>
+                                                </form> 
+                                            </td>
+
                                         </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -193,6 +211,7 @@
                             </div>
                         </div>
                     </div>
+
                     <?php      
                         }
                     ?>

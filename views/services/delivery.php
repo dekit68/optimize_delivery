@@ -36,10 +36,6 @@
         $order_details[$order['id']] = $stmt->fetchAll();
     }
 
-    $stmt = $pdo->prepare('SELECT orders.*, CONCAT(users.firstname, " ", users.lastname) AS username, users.address AS address, shop.name AS shopname FROM orders INNER JOIN users ON users.id = orders.user_id INNER JOIN shop ON shop.id = orders.shop_id WHERE delivery_id = ? AND delivery_status = 1');
-    $stmt->execute([$_SESSION['user_login']]);
-    $order_success = $stmt->fetchAll();
-
     include 'modal.php';
 ?>
 <!DOCTYPE html>
@@ -198,58 +194,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="contents" id="paymented">
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between">
-                                <h3>Paymented</h3>
-                            </div>
-                            <div class="card-body">
-                                <table id="admin-table" class="table table-bordered table-striped ">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Time</th>
-                                            <th>Emp</th>
-                                            <th>Address</th>
-                                            <th>ShopName</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($order_success as $orders): ?>
-                                        <tr>
-                                            <td>
-                                                <?= $orders['id']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $orders['time']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $orders['username']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $orders['address']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $orders['shopname']; ?>
-                                            </td>
-                                            <td>
-                                                <form action="bill.php" method="get">
-                                                    <input type="hidden" name="id" value="<?= $orders['id'] ?>">
-                                                    <button type="submit" class="btn btn-warning">พิมพ์ใบเสร็จ</button>
-                                                </form> 
-                                            </td>
-
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-
 
                     <?php include 'profile.php'; ?>
             
