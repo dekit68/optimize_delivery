@@ -193,7 +193,7 @@
                                                 <?php echo $shop_type['name']; ?>
                                             </td>
                                             <td>
-                                                <form action="functions/shop_type_delete.php" method="get" onsubmit="return confirmDelete('shop type');">
+                                                <form action="functions/shop_type_delete.php" method="get" onsubmit="return confirm('shoptype');">
                                                     <input type="hidden" name="id" value="<?= $shop_type['id']; ?>">
                                                     <button class="btn btn-danger" type="submit">Delete</button>
                                                 </form>
