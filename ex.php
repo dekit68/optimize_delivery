@@ -1,8 +1,11 @@
 <?php
     include 'assets.php';
-?>
+    require 'db.php';
 
-<link rel="stylesheet" href="assets/bootstrap-icons/font/bootstrap-icons.css">
+    $stmt = $pdo->prepare("SELECT food.*, shop.name AS shopname, food_type.name AS foodtype FROM food JOIN shop ON food.shop_id = shop.id JOIN food_type ON food_type.shop_id = shop.id");
+    $stmt->execute();
+    $food = $stmt->fetchAll();
+?>
 
 <style>
 
@@ -285,12 +288,13 @@ body {
 
     <!-- การ์ดสินค้า -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4" id="foodCards">
-        <div class="col food-card" data-shop="ร้านโจรสลัด" data-food-type="อาหารคลีน">
+        <?php foreach ($food as $data): ?>
+        <div class="col food-card" data-shop="<?= $data['id'] ?>" data-food-type="อาหารคลีน">
             <div class="card shadow-sm">
                 <img src="test/rollsalad.png" width="100%" alt="สลัดโรล">
                 <div class="card-body">
-                    <h5 class="card-title mb-1">สลัดโรล</h5>
-                    <p class="card-text text-body-secondary mb-1">อาหารคลีน - ร้านโจรสลัด</p>
+                    <h5 class="card-title mb-1"><?= $data['name'] ?></h5>
+                    <p class="card-text text-body-secondary mb-1"><?= $data['foodtype'] ?> - <?= $data['shopname'] ?></p>
                     <div class="d-flex justify-content-between align-items-center">
                         <button type="button" class="btn btn-sm btn-outline-primary">เพิ่มลงตะกล้า</button>
                         <small class="text-body-secondary fw-bold">60 บาท</small>
@@ -298,19 +302,7 @@ body {
                 </div>
             </div>
         </div>
-        <div class="col food-card" data-shop="ร้านอาหารบ้านสวน" data-food-type="อาหารญี่ปุ่น">
-            <div class="card shadow-sm">
-                <img src="test/rollsalad.png" width="100%" alt="สลัดโรล">
-                <div class="card-body">
-                    <h5 class="card-title mb-1">ซูชิ</h5>
-                    <p class="card-text text-body-secondary mb-1">อาหารญี่ปุ่น - ร้านอาหารบ้านสวน</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <button type="button" class="btn btn-sm btn-outline-primary">เพิ่มลงตะกล้า</button>
-                        <small class="text-body-secondary fw-bold">120 บาท</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php endforeach ?>
     </div>
 
     <!-- ส่วน table -->

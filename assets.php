@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/main.css">
+    <link rel="stylesheet" href="assets/bootstrap-icons/font/bootstrap-icons.css">
     <script src="assets/js/bootstrap.bundle.js"></script>   
     <script src="assets/jquery-3.7.1.min.js"></script> 
     <script src="app.js"></script>
