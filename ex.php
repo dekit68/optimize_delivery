@@ -252,42 +252,69 @@ body {
     <!-- ส่วน col -->
 
     <div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-      <div class="col">
-        <div class="card shadow-sm">
-            <img src="test/rollsalad.png" width="100%" alt="สลัดโรล">
-            <div class="card-body">
-            <h5 class="card-title mb-1">สลัดโรล</h5>
-            <p class="card-text text-body-secondary mb-1">อาหารคลีน - ร้านโจรสลัด</p>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-primary">เพิ่มลงตะกล้า</button>
-                </div>
-                <small class="text-body-secondary fw-bold">60 บาท</small>
-            </div>
-            </div>
-        </div>
-        </div>
-
+        <div class="row row-cols-md-3 g-3">
         <div class="col">
-        <div class="card shadow-sm">
-            <img src="test/rollsalad.png" width="100%" alt="สลัดโรล">
-            <div class="card-body">
-            <h5 class="card-title mb-1">สลัดโรล</h5>
-            <p class="card-text text-body-secondary mb-1">อาหารคลีน</p>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">แก้ไข</button>
-                <button type="button" class="btn btn-sm btn-outline-danger">ลบ</button>
-                </div>
-                <small class="text-body-secondary fw-bold">60 บาท</small>
+            <div class="form-floating mb-3">
+                <select id="shopSelect" class="form-control rounded-3">
+                    <option value="">ทั้งหมด</option>
+                    <option value="ร้านโจรสลัด">ร้านโจรสลัด</option>
+                    <option value="ร้านอาหารบ้านสวน">ร้านอาหารบ้านสวน</option>
+                    <option value="ร้านอาหารทะเล">ร้านอาหารทะเล</option>
+                </select>
+                <label>เลือกร้านอาหาร</label>
             </div>
+        </div>
+        <div class="col">
+            <div class="form-floating mb-3">
+                <select id="foodTypeSelect" class="form-control rounded-3">
+                    <option value="">ทั้งหมด</option>
+                    <option value="อาหารคลีน">อาหารคลีน</option>
+                    <option value="อาหารญี่ปุ่น">อาหารญี่ปุ่น</option>
+                    <option value="อาหารทะเล">อาหารทะเล</option>
+                </select>
+                <label>เลือกประเภทอาหาร</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-floating mb-3">
+                <input class="form-control" type="text" id="searchfood" placeholder="ค้นหาอาหาร">
+                <label>ค้นหา</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- การ์ดสินค้า -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-4" id="foodCards">
+        <div class="col food-card" data-shop="ร้านโจรสลัด" data-food-type="อาหารคลีน">
+            <div class="card shadow-sm">
+                <img src="test/rollsalad.png" width="100%" alt="สลัดโรล">
+                <div class="card-body">
+                    <h5 class="card-title mb-1">สลัดโรล</h5>
+                    <p class="card-text text-body-secondary mb-1">อาหารคลีน - ร้านโจรสลัด</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-sm btn-outline-primary">เพิ่มลงตะกล้า</button>
+                        <small class="text-body-secondary fw-bold">60 บาท</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col food-card" data-shop="ร้านอาหารบ้านสวน" data-food-type="อาหารญี่ปุ่น">
+            <div class="card shadow-sm">
+                <img src="test/rollsalad.png" width="100%" alt="สลัดโรล">
+                <div class="card-body">
+                    <h5 class="card-title mb-1">ซูชิ</h5>
+                    <p class="card-text text-body-secondary mb-1">อาหารญี่ปุ่น - ร้านอาหารบ้านสวน</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-sm btn-outline-primary">เพิ่มลงตะกล้า</button>
+                        <small class="text-body-secondary fw-bold">120 บาท</small>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- ส่วน table -->
-    <input type="text" id="searchInput" class="form-control mb-1" placeholder="ค้นหาข้อมูล...">
+    <input type="text" id="searchInput" class="form-control mb-4" placeholder="ค้นหาข้อมูล...">
         
     <table class="table table-hover table-striped table-bordered align-middle" style="border-radius: 5px; overflow: hidden;">
         <thead class="table-primary">
@@ -385,4 +412,52 @@ $(document).ready(function(){
         });
     });
 });
+
+$(document).ready(function() {
+    $('#searchfood').on('keyup', function() {
+        var searchQuery = $(this).val().toLowerCase(); 
+
+        $('#foodCards .food-card').each(function() {
+            var foodName = $(this).find('.card-title').text().toLowerCase();
+            var foodDescription = $(this).find('.card-text').text().toLowerCase();
+
+            if (foodName.includes(searchQuery) || foodDescription.includes(searchQuery)) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    // ฟังก์ชันสำหรับเลือกประเภทอาหาร
+    $('#foodTypeSelect').on('change', function() {
+        var selectedFoodType = $(this).val().toLowerCase();
+
+        $('#foodCards .food-card').each(function() {
+            var foodType = $(this).data('food-type').toLowerCase();
+
+            // หากประเภทอาหารตรงกับการเลือกให้แสดงการ์ด
+            if (foodType.includes(selectedFoodType) || selectedFoodType === "") {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    $('#shopSelect').on('change', function() {
+        var selectedShop = $(this).val().toLowerCase();
+
+        $('#foodCards .food-card').each(function() {
+            var shop = $(this).data('shop').toLowerCase();
+
+            if (shop.includes(selectedShop) || selectedShop === "") {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+});
+
 </script>
