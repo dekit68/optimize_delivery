@@ -5,124 +5,9 @@
     $stmt = $pdo->prepare("SELECT food.*, shop.name AS shopname, food_type.name AS foodtype FROM food JOIN shop ON food.shop_id = shop.id JOIN food_type ON food_type.shop_id = shop.id");
     $stmt->execute();
     $food = $stmt->fetchAll();
+
+
 ?>
-
-<style>
-
-@font-face {
-    font-family: 'Kanit';
-    src: url('assets/Kanit-Regular.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
-}
-
-html,
-body {
-    overflow-x: hidden;
-    font-family: 'Kanit', sans-serif;
-    overflow: auto !important;
-    padding-right: 0 !important;
-}
-
-.navbar {
-    padding-right: 0 !important;
-}
-
-body {
-    padding-top: 65px;
-    background-color: #f8f9fa;
-}
-
-@media (max-width: 991.98px) {
-  .offcanvas-collapse {
-    position: fixed;
-    top: 56px;
-    bottom: 0;
-    left: 100%;
-    width: 100%;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    overflow-y: auto;
-    visibility: hidden;
-    background-color: #343a40;
-    transition: transform .3s ease-in-out, visibility .3s ease-in-out;
-  }
-
-  .offcanvas-collapse.open {
-    visibility: visible;
-    transform: translateX(-100%);
-  }
-  
-}
-
-.navbar {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.navbar-brand img {
-    margin-right: 10px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-}
-
-.navbar-toggler {
-    transition: transform 0.3s ease;
-}
-
-.navbar-toggler:hover {
-    transform: rotate(90deg);
-}
-
-.nav-link {
-    color: #adb5bd;
-    font-weight: 500;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #ffffff;
-    transform: translateY(-1px);
-}
-
-.dropdown-menu {
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.nav-scroller {
-    background-color: #343a40;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.5rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.nav-scroller .nav-link {
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-}
-
-.nav-scroller .nav-link:hover {
-    color: #ffffff;
-}
-
-.badge {
-    font-size: 0.75rem;
-}
-
-.card {
-    border: none;
-}
-</style>
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <div class="container">
@@ -166,6 +51,8 @@ body {
     <a class="btn btn-lg btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">เข้าสู่ระบบ</a>
   </div>
 
+    <!-- ส่วน Modal -->
+
   <div class="modal fade" id="exampleModalToggle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow">
@@ -193,8 +80,6 @@ body {
             </div>
         </div>
     </div>
-
-    <!-- ส่วน Modal -->
 
     <div class="modal fade" id="exampleModalToggle2" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -303,9 +188,24 @@ body {
             </div>
         </div>
         <?php endforeach ?>
+
+        <div class="col">
+        <div class="card shadow-sm">
+            <img src="test/rollsalad.png" width="100%" alt="สลัดโรล">
+            <div class="card-body">
+            <h5 class="card-title mb-1">สลัดโรล</h5>
+            <p class="card-text text-body-secondary mb-1">อาหารคลีน</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">แก้ไข</button>
+                <button type="button" class="btn btn-sm btn-outline-danger">ลบ</button>
+                </div>
+                <small class="text-body-secondary fw-bold">60 บาท</small>
+            </div>
+            </div>
+        </div>
     </div>
 
-    <!-- ส่วน table -->
     <input type="text" id="searchInput" class="form-control mb-4" placeholder="ค้นหาข้อมูล...">
         
     <table class="table table-hover table-striped table-bordered align-middle" style="border-radius: 5px; overflow: hidden;">
@@ -320,7 +220,7 @@ body {
         </thead>
         <tbody id="tableBody">
             <tr>
-                <th scope="row" class="text-center">1</th>
+                <th class="text-center">1</th>
                 <td>Mark</td>
                 <td>Otto</td>
                 <td>0826419844</td>
@@ -357,99 +257,4 @@ body {
             </tr>
         </tbody>
     </table>
-
-
-
-
 </main>
-
-<script>
-(() => {
-  'use strict'
-  document.querySelector('#navbarSideCollapse').addEventListener('click', () => {
-    document.querySelector('.offcanvas-collapse').classList.toggle('open')
-  })
-})()
-
-$(document).ready(function() {
-    const lastContent = localStorage.getItem('lastContent');
-    if (lastContent) {
-        $(".contents").hide();
-        $("#" + lastContent).fadeIn();
-    } else {
-        $(".contents").hide();
-        $(".contents").first().fadeIn();
-    }
-    $(".nav-content").on("click", function(e) {
-        e.preventDefault();
-        let show = $(this).data("content");
-        $(".contents").hide();
-        $("#" + show).fadeIn();
-        localStorage.setItem('lastContent', show);
-    })
-})
-
-$(document).ready(function(){
-    $('#searchInput').on('keyup', function() {
-        var filter = $(this).val().toLowerCase();
-        $('#tableBody tr').filter(function() {
-            var name = $(this).find('td:nth-child(2)').text().toLowerCase();
-            var surname = $(this).find('td:nth-child(3)').text().toLowerCase();
-                    
-            if (name.indexOf(filter) > -1 || surname.indexOf(filter) > -1) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
-    });
-});
-
-$(document).ready(function() {
-    $('#searchfood').on('keyup', function() {
-        var searchQuery = $(this).val().toLowerCase(); 
-
-        $('#foodCards .food-card').each(function() {
-            var foodName = $(this).find('.card-title').text().toLowerCase();
-            var foodDescription = $(this).find('.card-text').text().toLowerCase();
-
-            if (foodName.includes(searchQuery) || foodDescription.includes(searchQuery)) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
-    });
-
-    // ฟังก์ชันสำหรับเลือกประเภทอาหาร
-    $('#foodTypeSelect').on('change', function() {
-        var selectedFoodType = $(this).val().toLowerCase();
-
-        $('#foodCards .food-card').each(function() {
-            var foodType = $(this).data('food-type').toLowerCase();
-
-            // หากประเภทอาหารตรงกับการเลือกให้แสดงการ์ด
-            if (foodType.includes(selectedFoodType) || selectedFoodType === "") {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
-    });
-
-    $('#shopSelect').on('change', function() {
-        var selectedShop = $(this).val().toLowerCase();
-
-        $('#foodCards .food-card').each(function() {
-            var shop = $(this).data('shop').toLowerCase();
-
-            if (shop.includes(selectedShop) || selectedShop === "") {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
-    });
-});
-
-</script>
