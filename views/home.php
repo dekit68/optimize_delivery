@@ -9,7 +9,8 @@
 
 <body>
     <?php include 'navbar.php' ?>
-    
+    <?php include 'status.php' ?>
+
     <div class="container py-5">
         <header class="bg-primary text-white text-center p-5 rounded-3 mb-5">
             <h1 class="fw-bold">Delivery Information</h1>

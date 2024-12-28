@@ -4,10 +4,10 @@
             <img src="assets/logo.png" alt="Logo">
             Dekit Delivery
         </a>
-        <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse">
+        <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse offcanvas-collapse">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="btn btn-primary w-100" href="" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">เข้าสู่ระบบ</a>

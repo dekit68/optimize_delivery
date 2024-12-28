@@ -22,10 +22,6 @@ body {
     background-color: #f8f9fa;
 }
 
-.navbar {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 .navbar-brand {
     display: flex;
     align-items: center;
@@ -35,16 +31,23 @@ body {
 
 .navbar-brand img {
     margin-right: 10px;
-    border-radius: 50%;
     width: 40px;
 }
 
-.navbar-toggler {
-    transition: transform 0.3s ease;
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.navbar-toggler:hover {
-    transform: rotate(90deg);
+.nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 3rem;
+    overflow-y: hidden;
+    background-color: #343a40;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .nav-link {
@@ -58,27 +61,22 @@ body {
     transform: translateY(-1px);
 }
 
-.dropdown-menu {
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.nav-scroller {
-    background-color: #343a40;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.5rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .nav-scroller .nav-link {
     color: rgba(255, 255, 255, 0.75);
     font-size: 0.9rem;
-    padding: 0.5rem 1rem;
     border-radius: 10px;
 }
 
 .nav-scroller .nav-link:hover {
     color: #ffffff;
+}
+
+.nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
 }
 
 .badge {
